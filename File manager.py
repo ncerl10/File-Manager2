@@ -8,7 +8,6 @@ import time
 
 #importing necessary libraries and modules
 
-#pp
 root = Tk() #creating the screen
 root.title("File manager") #editing the tile of the screen
 root.geometry("700x300") #changing the dimension of the screen
