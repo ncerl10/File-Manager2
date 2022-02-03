@@ -17,6 +17,7 @@ file_chosen = False
 label_error = Label(root)
 
 def confirm():
+    delcount = 0
     def start():
         p = Path(path)
         length = len(list(p.glob("**/*")))
@@ -134,10 +135,11 @@ def confirm():
                     continue
                 elif clicked5.get() == "After" and int(e_second3.get()) > access_second:
                     continue
+            delcount += 1
             os.remove(item)
         
         done = Toplevel() #creates a window to tell the user that files have been deleted
-        label_done = Label(done, text="Your files have been deleted")
+        label_done = Label(done, text= str(delcount)+ "files have been deleted")
         button_done = Button(done, text="Ok", command=done.destroy)
         label_done.pack()
         button_done.pack()
