@@ -10,7 +10,7 @@ import time
 
 root = Tk() #creating the screen
 root.title("File manager") #editing the tile of the screen
-root.geometry("700x300") #changing the dimension of the screen
+root.geometry("600x200") #changing the dimension of the screen
 root.config(bg="black")
 
 path = ""
@@ -18,13 +18,14 @@ file_chosen = False
 label_error = Label(root)
 
 def validate(y,m,d): #year, month, day
-    Output = 1
+    common_year = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    leap_year = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
     if d.isdigit() and m.isdigit() and y.isdigit():
         dINT = int(d)
         mINT = int(m)
 
-        if dINT < 32 and dINT > 0 and mINT < 13 and mINT > 0:
-            Output = 0
+        if 0 < mINT < 13:
+            return 0
     return Output
 
         
