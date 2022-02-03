@@ -16,7 +16,7 @@ path = ""
 file_chosen = False
 label_error = Label(root)
 
-def validate(d,m,y) #day, month, year
+def validate(y,m,d): #year, month, day
     Output = 1
     if d.isdigit() and m.isdigit() and y.isdigit():
         dINT = int(d)
@@ -153,17 +153,17 @@ def confirm():
             label_error.grid(row=7, column=0, columnspan=2)
             return
     if var3.get() == 1: #check if the creation date is inputed in the correct format
-        if e_year1.get().isdigit() == False or e_month1.get().isdigit() == False or e_day1.get().isdigit() == False:
+        if validate(e_year1.get(),e_month1.get(),e_day1.get()):
             label_error = Label(root, text="Invalid input for creation date", fg="red")
             label_error.grid(row=7, column=0, columnspan=2)
             return
     if var4.get() == 1: #check if the modification date is inputed in the correct format
-        if e_year2.get().isdigit() == False or e_month2.get().isdigit() == False or e_day2.get().isdigit() == False:
+        if validate(e_year2.get(),e_month2.get(),e_day2.get()):
             label_error = Label(root, text="Invalid input for modification date", fg="red")
             label_error.grid(row=7, column=0, columnspan=2)
             return
     if var5.get() == 1: #check if the accessed date is inputed in the correct format
-        if e_year3.get().isdigit() == False or e_month3.get().isdigit() == False or e_day3.get().isdigit() == False:
+        if validate(e_year3.get(),e_month3.get(),e_day3.get()):
             label_error = Label(root, text="Invalid input for accessed date", fg="red")
             label_error.grid(row=7, column=0, columnspan=2)
             return
