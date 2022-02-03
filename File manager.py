@@ -11,22 +11,26 @@ import time
 root = Tk() #creating the screen
 root.title("File manager") #editing the tile of the screen
 root.geometry("600x200") #changing the dimension of the screen
-root.config(bg="black")
+root.config(bg="grey")
 
 path = ""
 file_chosen = False
 label_error = Label(root)
 
-def validate(y,m,d): #year, month, day
+def validate_date(y,m,d): #year, month, day
     common_year = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
     leap_year = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
     if d.isdigit() and m.isdigit() and y.isdigit():
-        dINT = int(d)
-        mINT = int(m)
-
-        if 0 < mINT < 13:
-            return 0
-    return Output
+        dINT, mINT, yINT = int(d), int(m), int(y)
+        if yINT % 4 == 0:
+            if 0 < mINT < 13:
+                if 0 < dINT <= leap_year[mINT - 1]:
+                    return False
+        else:
+            if 0 < mINT < 13:
+                if 0 < dINT <= common_year[mINT - 1]:
+                    return False
+    return True
 
         
     
@@ -155,17 +159,17 @@ def confirm():
             label_error.grid(row=7, column=0, columnspan=2)
             return
     if var3.get() == 1: #check if the creation date is inputed in the correct format
-        if validate(e_year1.get(),e_month1.get(),e_day1.get()):
+        if validate_date(e_year1.get(),e_month1.get(),e_day1.get()):
             label_error = Label(root, text="Invalid input for creation date", fg="red")
             label_error.grid(row=7, column=0, columnspan=2)
             return
     if var4.get() == 1: #check if the modification date is inputed in the correct format
-        if validate(e_year2.get(),e_month2.get(),e_day2.get()):
+        if validate_date(e_year2.get(),e_month2.get(),e_day2.get()):
             label_error = Label(root, text="Invalid input for modification date", fg="red")
             label_error.grid(row=7, column=0, columnspan=2)
             return
     if var5.get() == 1: #check if the accessed date is inputed in the correct format
-        if validate(e_year3.get(),e_month3.get(),e_day3.get()):
+        if validate_date(e_year3.get(),e_month3.get(),e_day3.get()):
             label_error = Label(root, text="Invalid input for accessed date", fg="red")
             label_error.grid(row=7, column=0, columnspan=2)
             return
@@ -214,59 +218,59 @@ def instructions(): #creates window with list of instructions
 chosen = StringVar()
 chosen.set("Choose file")
 
-label_file_type = Label(root, text="File type", bg="black", fg="white")
-label_file_size = Label(root, text="File size", bg="black", fg="white")
-label_file_creation = Label(root, text="Creation date", bg="black", fg="white")
-label_file_modification = Label(root, text="Modification date", bg="black", fg="white")
-label_file_accessed = Label(root, text="Accessed date", bg="black", fg="white")
-label_folder_chosen = Label(root, text="Chosen file", bg="black", fg="white")
+label_file_type = Label(root, text="File type", bg="grey", fg="white")
+label_file_size = Label(root, text="File size", bg="grey", fg="white")
+label_file_creation = Label(root, text="Creation date", bg="grey", fg="white")
+label_file_modification = Label(root, text="Modification date", bg="grey", fg="white")
+label_file_accessed = Label(root, text="Accessed date", bg="grey", fg="white")
+label_folder_chosen = Label(root, text="Chosen file", bg="grey", fg="white")
 
-label_dash1 = Label(root, text="-", bg="black", fg="white")
-label_dash2 = Label(root, text="-", bg="black", fg="white")
-label_dash3 = Label(root, text="-", bg="black", fg="white")
-label_dash4 = Label(root, text="-", bg="black", fg="white")
-label_dash5 = Label(root, text="-", bg="black", fg="white")
-label_dash6 = Label(root, text="-", bg="black", fg="white")
+label_dash1 = Label(root, text="-", bg="grey", fg="white")
+label_dash2 = Label(root, text="-", bg="grey", fg="white")
+label_dash3 = Label(root, text="-", bg="grey", fg="white")
+label_dash4 = Label(root, text="-", bg="grey", fg="white")
+label_dash5 = Label(root, text="-", bg="grey", fg="white")
+label_dash6 = Label(root, text="-", bg="grey", fg="white")
 
-button_quit = Button(root, text="Quit", command=check, highlightbackground="black")
-button_confirm = Button(root, text="Confirm", command=confirm, highlightbackground="black")
-button_folder = Button(root, textvariable=chosen, command=folder, width=15, highlightbackground="black")
-button_help = Button(root, text="Help", command=instructions, highlightbackground="black")
+button_quit = Button(root, text="Quit", command=check, highlightbackground="grey")
+button_confirm = Button(root, text="Confirm", command=confirm, highlightbackground="grey")
+button_folder = Button(root, textvariable=chosen, command=folder, width=15, highlightbackground="grey")
+button_help = Button(root, text="Help", command=instructions, highlightbackground="grey")
 
 e_file_type = Entry(root, width=9, highlightthickness=1)
-e_file_type.config(highlightbackground="black", bg="black", fg="white", highlightcolor="white")
+e_file_type.config(highlightbackground="grey", bg="grey", fg="white")
 e_file_size = Entry(root, width=9, highlightthickness=1)
-e_file_size.config(highlightbackground="black", bg="black", fg="white", highlightcolor="white")
+e_file_size.config(highlightbackground="grey", bg="grey", fg="white")
 
 e_day1 = Entry(root, width=3, justify="center", highlightthickness=1)
 e_day1.insert(0, "dd")
-e_day1.config(bg="black", fg="white", highlightbackground="black", highlightcolor="white")
+e_day1.config(bg="grey", fg="white", highlightbackground="grey")
 e_month1 = Entry(root, width=3, justify="center", highlightthickness=1)
 e_month1.insert(0, "mm")
-e_month1.config(bg="black", fg="white", highlightbackground="black", highlightcolor="white")
+e_month1.config(bg="grey", fg="white", highlightbackground="grey")
 e_year1 = Entry(root, width=4, justify="center", highlightthickness=1)
 e_year1.insert(0, "yyyy")
-e_year1.config(bg="black", fg="white", highlightbackground="black", highlightcolor="white")
+e_year1.config(bg="grey", fg="white", highlightbackground="grey")
 
 e_day2 = Entry(root, width=3, justify="center", highlightthickness=1)
 e_day2.insert(0, "dd")
-e_day2.config(bg="black", fg="white", highlightbackground="black", highlightcolor="white")
+e_day2.config(bg="grey", fg="white", highlightbackground="grey")
 e_month2 = Entry(root, width=3, justify="center", highlightthickness=1)
 e_month2.insert(0, "mm")
-e_month2.config(bg="black", fg="white", highlightbackground="black", highlightcolor="white")
+e_month2.config(bg="grey", fg="white", highlightbackground="grey")
 e_year2 = Entry(root, width=4, justify="center", highlightthickness=1)
 e_year2.insert(0, "yyyy")
-e_year2.config(bg="black", fg="white", highlightbackground="black", highlightcolor="white")
+e_year2.config(bg="grey", fg="white", highlightbackground="grey")
 
 e_day3 = Entry(root, width=3, justify="center", highlightthickness=1)
 e_day3.insert(0, "dd")
-e_day3.config(bg="black", fg="white", highlightbackground="black", highlightcolor="white")
+e_day3.config(bg="grey", fg="white", highlightbackground="grey")
 e_month3 = Entry(root, width=3, justify="center", highlightthickness=1)
 e_month3.insert(0, "mm")
-e_month3.config(bg="black", fg="white", highlightbackground="black", highlightcolor="white")
+e_month3.config(bg="grey", fg="white", highlightbackground="grey")
 e_year3 = Entry(root, width=4, justify="center", highlightthickness=1)
 e_year3.insert(0, "yyyy")
-e_year3.config(bg="black", fg="white", highlightbackground="black", highlightcolor="white")
+e_year3.config(bg="grey", fg="white", highlightbackground="grey")
 
 sizes = ["KB", "MB", "GB", "TB"]
 
@@ -284,17 +288,17 @@ clicked6 = StringVar()
 clicked6.set("Before")
 
 size_menu = OptionMenu(root, clicked1, *sizes)
-size_menu.config(width=4, bg="black")
+size_menu.config(width=4, bg="grey")
 menu = OptionMenu(root, clicked2, "Greater than", "Less than", "Equal to")
-menu.config(width=9, bg="black")
+menu.config(width=9, bg="grey")
 timing_menu1 = OptionMenu(root, clicked3, "Before", "After", "On")
-timing_menu1.config(width=9, bg="black")
+timing_menu1.config(width=9, bg="grey")
 timing_menu2 = OptionMenu(root, clicked4, "Before", "After", "On")
-timing_menu2.config(width=9, bg="black")
+timing_menu2.config(width=9, bg="grey")
 type_menu = OptionMenu(root, clicked5, "is", "is not")
-type_menu.config(width=9, bg="black")
+type_menu.config(width=9, bg="grey")
 timing_menu3 = OptionMenu(root, clicked6, "Before", "After", "On")
-timing_menu3.config(width=9, bg="black")
+timing_menu3.config(width=9, bg="grey")
 
 var1 = IntVar() #creating integer variables which is used for the checkboxes
 var2 = IntVar()
@@ -302,11 +306,11 @@ var3 = IntVar()
 var4 = IntVar()
 var5 = IntVar()
 
-c1 = Checkbutton(root, variable=var1, bg="black") #creating checkbox variables
-c2 = Checkbutton(root, variable=var2, bg="black")
-c3 = Checkbutton(root, variable=var3, bg="black")
-c4 = Checkbutton(root, variable=var4, bg="black")
-c5 = Checkbutton(root, variable=var5, bg="black")
+c1 = Checkbutton(root, variable=var1, bg="grey") #creating checkbox variables
+c2 = Checkbutton(root, variable=var2, bg="grey")
+c3 = Checkbutton(root, variable=var3, bg="grey")
+c4 = Checkbutton(root, variable=var4, bg="grey")
+c5 = Checkbutton(root, variable=var5, bg="grey")
 
 label_folder_chosen.grid(row=0, column=0) #adding items for the first row of the screen
 button_folder.grid(row=0, column=1) 
