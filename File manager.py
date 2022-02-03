@@ -15,7 +15,14 @@ root.geometry("700x300") #changing the dimension of the screen
 path = ""
 file_chosen = False
 label_error = Label(root)
-
+def validateDate(d,m):
+    if d < 1 or d > 31:
+        return "invalid date, pick a day between 1 and 31 inclusive"
+    elif m < 1 or m > 12:
+        return "invalid month, pick a month between 1 and 12 inclusive"
+    else:
+        return 1
+    
 def confirm():
     def start():
         delcount = 0
