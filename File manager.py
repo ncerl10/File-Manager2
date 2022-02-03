@@ -17,8 +17,8 @@ file_chosen = False
 label_error = Label(root)
 
 def confirm():
-    delcount = 0
     def start():
+        delcount = 0
         p = Path(path)
         length = len(list(p.glob("**/*")))
         count = 0
@@ -51,23 +51,11 @@ def confirm():
                     continue
                 elif clicked3.get() == "Before" and int(e_day1.get()) < create_day:
                     continue
-                elif clicked3.get() == "Before" and int(e_hour1.get()) < create_hour:
-                    continue
-                elif clicked3.get() == "Before" and int(e_minute1.get()) < create_minute:
-                    continue
-                elif clicked3.get() == "Before" and int(e_second1.get()) < create_second:
-                    continue
                 if clicked3.get() == "After" and int(e_year1.get()) > create_year:
                     continue
                 elif clicked3.get() == "After" and int(e_month1.get()) > create_month:
                     continue
                 elif clicked3.get() == "After" and int(e_day1.get()) > create_day:
-                    continue
-                elif clicked3.get() == "After" and int(e_hour1.get()) > create_hour:
-                    continue
-                elif clicked3.get() == "After" and int(e_minute1.get()) > create_minute:
-                    continue
-                elif clicked3.get() == "After" and int(e_second1.get()) > create_second:
                     continue
             if var4.get() == 1:
                 modify_date = datetime.fromtimestamp(item.stat().st_mtime)
@@ -84,23 +72,11 @@ def confirm():
                     continue
                 elif clicked4.get() == "Before" and int(e_day2.get()) < modify_day:
                     continue
-                elif clicked4.get() == "Before" and int(e_hour2.get()) < modify_hour:
-                    continue
-                elif clicked4.get() == "Before" and int(e_minute2.get()) < modify_minute:
-                    continue
-                elif clicked4.get() == "Before" and int(e_second2.get()) < modify_second:
-                    continue
                 if clicked4.get() == "After" and int(e_year2.get()) > modify_year:
                     continue
                 elif clicked4.get() == "After" and int(e_month2.get()) > modify_month:
                     continue
                 elif clicked4.get() == "After" and int(e_day2.get()) > modify_day:
-                    continue
-                elif clicked4.get() == "After" and int(e_hour2.get()) > modify_hour:
-                    continue
-                elif clicked4.get() == "After" and int(e_minute2.get()) > modify_minute:
-                    continue
-                elif clicked4.get() == "After" and int(e_second2.get()) > modify_second:
                     continue
             if var5.get() == 1:
                 access_date = datetime.fromtimestamp(item.stat().st_atime)
@@ -117,29 +93,17 @@ def confirm():
                     continue
                 elif clicked5.get() == "Before" and int(e_day3.get()) < access_day:
                     continue
-                elif clicked5.get() == "Before" and int(e_hour3.get()) < access_hour:
-                    continue
-                elif clicked5.get() == "Before" and int(e_minute3.get()) < access_minute:
-                    continue
-                elif clicked5.get() == "Before" and int(e_second3.get()) < access_second:
-                    continue
                 if clicked5.get() == "After" and int(e_year3.get()) > access_year:
                     continue
                 elif clicked5.get() == "After" and int(e_month3.get()) > access_month:
                     continue
                 elif clicked5.get() == "After" and int(e_day3.get()) > access_day:
                     continue
-                elif clicked5.get() == "After" and int(e_hour3.get()) > access_hour:
-                    continue
-                elif clicked5.get() == "After" and int(e_minute3.get()) > access_minute:
-                    continue
-                elif clicked5.get() == "After" and int(e_second3.get()) > access_second:
-                    continue
             delcount += 1
             os.remove(item)
         
         done = Toplevel() #creates a window to tell the user that files have been deleted
-        label_done = Label(done, text= str(delcount)+ "files have been deleted")
+        label_done = Label(done, text= str(delcount)+ " files have been deleted")
         button_done = Button(done, text="Ok", command=done.destroy)
         label_done.pack()
         button_done.pack()
@@ -177,17 +141,17 @@ def confirm():
             label_error.grid(row=7, column=0, columnspan=2)
             return
     if var3.get() == 1: #check if the creation date is inputed in the correct format
-        if e_year1.get().isdigit() == False or e_month1.get().isdigit() == False or e_day1.get().isdigit() == False or e_hour1.get().isdigit() == False or e_minute1.get().isdigit() == False or e_second1.get().isdigit() == False:
+        if e_year1.get().isdigit() == False or e_month1.get().isdigit() == False or e_day1.get().isdigit() == False:
             label_error = Label(root, text="Invalid input for creation date", fg="red")
             label_error.grid(row=7, column=0, columnspan=2)
             return
     if var4.get() == 1: #check if the modification date is inputed in the correct format
-        if e_year2.get().isdigit() == False or e_month2.get().isdigit() == False or e_day2.get().isdigit() == False or e_hour2.get().isdigit() == False or e_minute2.get().isdigit() == False or e_second2.get().isdigit() == False:
+        if e_year2.get().isdigit() == False or e_month2.get().isdigit() == False or e_day2.get().isdigit() == False:
             label_error = Label(root, text="Invalid input for modification date", fg="red")
             label_error.grid(row=7, column=0, columnspan=2)
             return
     if var5.get() == 1: #check if the accessed date is inputed in the correct format
-        if e_year3.get().isdigit() == False or e_month3.get().isdigit() == False or e_day3.get().isdigit() == False or e_hour3.get().isdigit() == False or e_minute3.get().isdigit() == False or e_second3.get().isdigit() == False:
+        if e_year3.get().isdigit() == False or e_month3.get().isdigit() == False or e_day3.get().isdigit() == False:
             label_error = Label(root, text="Invalid input for accessed date", fg="red")
             label_error.grid(row=7, column=0, columnspan=2)
             return
@@ -249,17 +213,6 @@ label_dash3 = Label(root, text="-")
 label_dash4 = Label(root, text="-")
 label_dash5 = Label(root, text="-")
 label_dash6 = Label(root, text="-")
-'''
-label_colon1 = Label(root, text=":")
-label_colon2 = Label(root, text=":")
-label_colon3 = Label(root, text=":")
-label_colon4 = Label(root, text=":")
-label_colon5 = Label(root, text=":")
-label_colon6 = Label(root, text=":")
-
-label_space1 = Label(root, text="  ")
-label_space2 = Label(root, text="  ")
-label_space3 = Label(root, text="  ")'''
 
 button_quit = Button(root, text="Quit", command=check)
 button_confirm = Button(root, text="Confirm", command=confirm)
@@ -275,13 +228,6 @@ e_month1 = Entry(root, width=4, justify="center")
 e_month1.insert(0, "mm")
 e_year1 = Entry(root, width=6, justify="center")
 e_year1.insert(0, "yyyy")
-'''
-e_hour1 = Entry(root, width=4, justify="center")
-e_hour1.insert(0, "hh")
-e_minute1 = Entry(root, width=4, justify="center")
-e_minute1.insert(0, "mm")
-e_second1 = Entry(root, width=4, justify="center")
-e_second1.insert(0, "ss")'''
 
 e_day2 = Entry(root, width=4, justify="center")
 e_day2.insert(0, "dd")
@@ -289,13 +235,6 @@ e_month2 = Entry(root, width=4, justify="center")
 e_month2.insert(0, "mm")
 e_year2 = Entry(root, width=6, justify="center")
 e_year2.insert(0, "yyyy")
-'''
-e_hour2 = Entry(root, width=4, justify="center")
-e_hour2.insert(0, "hh")
-e_minute2 = Entry(root, width=4, justify="center")
-e_minute2.insert(0, "mm")
-e_second2 = Entry(root, width=4, justify="center")
-e_second2.insert(0, "ss")'''
 
 e_day3 = Entry(root, width=4, justify="center")
 e_day3.insert(0, "dd")
@@ -303,13 +242,6 @@ e_month3 = Entry(root, width=4, justify="center")
 e_month3.insert(0, "mm")
 e_year3 = Entry(root, width=6, justify="center")
 e_year3.insert(0, "yyyy")
-'''
-e_hour3 = Entry(root, width=4, justify="center")
-e_hour3.insert(0, "hh")
-e_minute3 = Entry(root, width=4, justify="center")
-e_minute3.insert(0, "mm")
-e_second3 = Entry(root, width=4, justify="center")
-e_second3.insert(0, "ss")'''
 
 sizes = ["KB", "MB", "GB", "TB"]
 
@@ -372,13 +304,6 @@ label_dash1.grid(row=3, column=4)
 e_month1.grid(row=3, column=5)
 label_dash2.grid(row=3, column=6)
 e_year1.grid(row=3, column=7)
-'''
-label_space1.grid(row=3, column=8)
-e_hour1.grid(row=3, column=9)
-label_colon1.grid(row=3, column=10)
-e_minute1.grid(row=3, column=11)
-label_colon2.grid(row=3, column=12)
-e_second1.grid(row=3, column=13)'''
 
 c4.grid(row=4, column=0) #adding items for the fifth row of the screen
 label_file_modification.grid(row=4, column=1, sticky="w")
@@ -388,13 +313,6 @@ label_dash3.grid(row=4, column=4)
 e_month2.grid(row=4, column=5)
 label_dash4.grid(row=4, column=6)
 e_year2.grid(row=4, column=7)
-'''
-label_space2.grid(row=4, column=8)
-e_hour2.grid(row=4, column=9)
-label_colon3.grid(row=4, column=10)
-e_minute2.grid(row=4, column=11)
-label_colon4.grid(row=4, column=12)
-e_second2.grid(row=4, column=13)'''
 
 c5.grid(row=5, column=0) #adding items for the sixth row of the screen
 label_file_accessed.grid(row=5, column=1, sticky="w")
@@ -404,13 +322,6 @@ label_dash5.grid(row=5, column=4)
 e_month3.grid(row=5, column=5)
 label_dash6.grid(row=5, column=6)
 e_year3.grid(row=5, column=7)
-'''
-label_space3.grid(row=5, column=8)
-e_hour3.grid(row=5, column=9)
-label_colon5.grid(row=5, column=10)
-e_minute3.grid(row=5, column=11)
-label_colon6.grid(row=5, column=12)
-e_second3.grid(row=5, column=13)'''
 
 button_confirm.grid(row=6, column=0) #adding items for the seventh row of the screen
 button_quit.grid(row=6, column=1)
