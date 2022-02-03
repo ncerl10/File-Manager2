@@ -11,6 +11,7 @@ import time
 root = Tk() #creating the screen
 root.title("File manager") #editing the tile of the screen
 root.geometry("700x300") #changing the dimension of the screen
+root.config(bg="black")
 
 path = ""
 file_chosen = False
@@ -212,48 +213,59 @@ def instructions(): #creates window with list of instructions
 chosen = StringVar()
 chosen.set("Choose file")
 
-label_file_type = Label(root, text="File type")
-label_file_size = Label(root, text="File size")
-label_file_creation = Label(root, text="Creation date")
-label_file_modification = Label(root, text="Modification date")
-label_file_accessed = Label(root, text="Accessed date")
-label_folder_chosen = Label(root, text="Chosen file")
+label_file_type = Label(root, text="File type", bg="black", fg="white")
+label_file_size = Label(root, text="File size", bg="black", fg="white")
+label_file_creation = Label(root, text="Creation date", bg="black", fg="white")
+label_file_modification = Label(root, text="Modification date", bg="black", fg="white")
+label_file_accessed = Label(root, text="Accessed date", bg="black", fg="white")
+label_folder_chosen = Label(root, text="Chosen file", bg="black", fg="white")
 
-label_dash1 = Label(root, text="-")
-label_dash2 = Label(root, text="-")
-label_dash3 = Label(root, text="-")
-label_dash4 = Label(root, text="-")
-label_dash5 = Label(root, text="-")
-label_dash6 = Label(root, text="-")
+label_dash1 = Label(root, text="-", bg="black", fg="white")
+label_dash2 = Label(root, text="-", bg="black", fg="white")
+label_dash3 = Label(root, text="-", bg="black", fg="white")
+label_dash4 = Label(root, text="-", bg="black", fg="white")
+label_dash5 = Label(root, text="-", bg="black", fg="white")
+label_dash6 = Label(root, text="-", bg="black", fg="white")
 
-button_quit = Button(root, text="Quit", command=check)
-button_confirm = Button(root, text="Confirm", command=confirm)
-button_folder = Button(root, textvariable=chosen, command=folder, width=15)
-button_help = Button(root, text="Help", command=instructions)
+button_quit = Button(root, text="Quit", command=check, highlightbackground="black")
+button_confirm = Button(root, text="Confirm", command=confirm, highlightbackground="black")
+button_folder = Button(root, textvariable=chosen, command=folder, width=15, highlightbackground="black")
+button_help = Button(root, text="Help", command=instructions, highlightbackground="black")
 
-e_file_type = Entry(root, width=8)
-e_file_size = Entry(root, width=10)
+e_file_type = Entry(root, width=9, highlightthickness=1)
+e_file_type.config(highlightbackground="black", bg="black", fg="white", highlightcolor="white")
+e_file_size = Entry(root, width=9, highlightthickness=1)
+e_file_size.config(highlightbackground="black", bg="black", fg="white", highlightcolor="white")
 
-e_day1 = Entry(root, width=4, justify="center")
+e_day1 = Entry(root, width=3, justify="center", highlightthickness=1)
 e_day1.insert(0, "dd")
-e_month1 = Entry(root, width=4, justify="center")
+e_day1.config(bg="black", fg="white", highlightbackground="black", highlightcolor="white")
+e_month1 = Entry(root, width=3, justify="center", highlightthickness=1)
 e_month1.insert(0, "mm")
-e_year1 = Entry(root, width=6, justify="center")
+e_month1.config(bg="black", fg="white", highlightbackground="black", highlightcolor="white")
+e_year1 = Entry(root, width=4, justify="center", highlightthickness=1)
 e_year1.insert(0, "yyyy")
+e_year1.config(bg="black", fg="white", highlightbackground="black", highlightcolor="white")
 
-e_day2 = Entry(root, width=4, justify="center")
+e_day2 = Entry(root, width=3, justify="center", highlightthickness=1)
 e_day2.insert(0, "dd")
-e_month2 = Entry(root, width=4, justify="center")
+e_day2.config(bg="black", fg="white", highlightbackground="black", highlightcolor="white")
+e_month2 = Entry(root, width=3, justify="center", highlightthickness=1)
 e_month2.insert(0, "mm")
-e_year2 = Entry(root, width=6, justify="center")
+e_month2.config(bg="black", fg="white", highlightbackground="black", highlightcolor="white")
+e_year2 = Entry(root, width=4, justify="center", highlightthickness=1)
 e_year2.insert(0, "yyyy")
+e_year2.config(bg="black", fg="white", highlightbackground="black", highlightcolor="white")
 
-e_day3 = Entry(root, width=4, justify="center")
+e_day3 = Entry(root, width=3, justify="center", highlightthickness=1)
 e_day3.insert(0, "dd")
-e_month3 = Entry(root, width=4, justify="center")
+e_day3.config(bg="black", fg="white", highlightbackground="black", highlightcolor="white")
+e_month3 = Entry(root, width=3, justify="center", highlightthickness=1)
 e_month3.insert(0, "mm")
-e_year3 = Entry(root, width=6, justify="center")
+e_month3.config(bg="black", fg="white", highlightbackground="black", highlightcolor="white")
+e_year3 = Entry(root, width=4, justify="center", highlightthickness=1)
 e_year3.insert(0, "yyyy")
+e_year3.config(bg="black", fg="white", highlightbackground="black", highlightcolor="white")
 
 sizes = ["KB", "MB", "GB", "TB"]
 
@@ -271,16 +283,17 @@ clicked6 = StringVar()
 clicked6.set("Before")
 
 size_menu = OptionMenu(root, clicked1, *sizes)
+size_menu.config(width=4, bg="black")
 menu = OptionMenu(root, clicked2, "Greater than", "Less than", "Equal to")
-menu.config(width=9)
+menu.config(width=9, bg="black")
 timing_menu1 = OptionMenu(root, clicked3, "Before", "After", "On")
-timing_menu1.config(width=9)
+timing_menu1.config(width=9, bg="black")
 timing_menu2 = OptionMenu(root, clicked4, "Before", "After", "On")
-timing_menu2.config(width=9)
+timing_menu2.config(width=9, bg="black")
 type_menu = OptionMenu(root, clicked5, "is", "is not")
-type_menu.config(width=9)
+type_menu.config(width=9, bg="black")
 timing_menu3 = OptionMenu(root, clicked6, "Before", "After", "On")
-timing_menu3.config(width=9)
+timing_menu3.config(width=9, bg="black")
 
 var1 = IntVar() #creating integer variables which is used for the checkboxes
 var2 = IntVar()
@@ -288,11 +301,11 @@ var3 = IntVar()
 var4 = IntVar()
 var5 = IntVar()
 
-c1 = Checkbutton(root, variable=var1) #creating checkbox variables
-c2 = Checkbutton(root, variable=var2)
-c3 = Checkbutton(root, variable=var3)
-c4 = Checkbutton(root, variable=var4)
-c5 = Checkbutton(root, variable=var5)
+c1 = Checkbutton(root, variable=var1, bg="black") #creating checkbox variables
+c2 = Checkbutton(root, variable=var2, bg="black")
+c3 = Checkbutton(root, variable=var3, bg="black")
+c4 = Checkbutton(root, variable=var4, bg="black")
+c5 = Checkbutton(root, variable=var5, bg="black")
 
 label_folder_chosen.grid(row=0, column=0) #adding items for the first row of the screen
 button_folder.grid(row=0, column=1) 
@@ -300,40 +313,40 @@ button_folder.grid(row=0, column=1)
 c1.grid(row=1, column=0) #adding items for the second row of the screen
 label_file_type.grid(row=1, column=1, sticky="w") 
 type_menu.grid(row=1, column=2, sticky="w") 
-e_file_type.grid(row=1, column=3) 
+e_file_type.grid(row=1, column=3, columnspan=3) 
 
 c2.grid(row=2, column=0) #adding items for the third row of the screen
 label_file_size.grid(row=2, column=1, sticky="w") 
 menu.grid(row=2, column=2, sticky="w") 
 e_file_size.grid(row=2, column=3, columnspan=3) 
-size_menu.grid(row=2, column=6, columnspan=2) 
+size_menu.grid(row=2, column=6, columnspan=2, sticky="w") 
 
 c3.grid(row=3, column=0) #adding items for the fourth row of the screen
 label_file_creation.grid(row=3, column=1, sticky="w") 
 timing_menu1.grid(row=3, column=2, sticky="w")
-e_day1.grid(row=3, column=3)
+e_day1.grid(row=3, column=3, sticky="e")
 label_dash1.grid(row=3, column=4)
-e_month1.grid(row=3, column=5)
+e_month1.grid(row=3, column=5, sticky="w")
 label_dash2.grid(row=3, column=6)
-e_year1.grid(row=3, column=7)
+e_year1.grid(row=3, column=7, sticky="w")
 
 c4.grid(row=4, column=0) #adding items for the fifth row of the screen
 label_file_modification.grid(row=4, column=1, sticky="w")
 timing_menu2.grid(row=4, column=2, sticky="w")
-e_day2.grid(row=4, column=3)
+e_day2.grid(row=4, column=3, sticky="e")
 label_dash3.grid(row=4, column=4)
-e_month2.grid(row=4, column=5)
+e_month2.grid(row=4, column=5, sticky="w")
 label_dash4.grid(row=4, column=6)
-e_year2.grid(row=4, column=7)
+e_year2.grid(row=4, column=7, sticky="w")
 
 c5.grid(row=5, column=0) #adding items for the sixth row of the screen
 label_file_accessed.grid(row=5, column=1, sticky="w")
 timing_menu3.grid(row=5, column=2, sticky="w")
-e_day3.grid(row=5, column=3)
+e_day3.grid(row=5, column=3, sticky="e")
 label_dash5.grid(row=5, column=4)
-e_month3.grid(row=5, column=5)
+e_month3.grid(row=5, column=5, sticky="w")
 label_dash6.grid(row=5, column=6)
-e_year3.grid(row=5, column=7)
+e_year3.grid(row=5, column=7, sticky="w")
 
 button_confirm.grid(row=6, column=0) #adding items for the seventh row of the screen
 button_quit.grid(row=6, column=1)
