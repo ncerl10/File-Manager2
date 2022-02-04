@@ -1,22 +1,23 @@
 from tkinter import *
-import os
 from datetime import datetime
 from tkinter import filedialog
 from pathlib import Path
-from tkinter import ttk
-import time
 from send2trash import send2trash
 #importing necessary libraries and modules
+
+background_colour = "grey"
+text_colour = "white"
 
 root = Tk() #creating the screen
 root.title("File manager") #editing the tile of the screen
 root.geometry("600x200") #changing the dimension of the screen
-root.config(bg="grey")
+root.config(bg=background_colour)
 
 path = ""
 file_chosen = False
 label_error = Label(root)
 dataLabel = ['themeID','deleteType'] 
+
 def loadOptions():
     data = []
     dataReturn = []
@@ -50,6 +51,9 @@ def validate_date(y,m,d): #year, month, day
     return True
 
 def check_date(v, y, m, d, ny, nm, nd):
+    print(y, ny)
+    print(m, nm)
+    print(d, nd)
     if v == "Before":
         if y < ny:
             return True
@@ -65,15 +69,15 @@ def check_date(v, y, m, d, ny, nm, nd):
         if d > nd:
             return True
     if v == "On":
-        if y != ny and m != nm and d != nd:
+        if y != ny or m != nm or d != nd:
             return True
     return False
  
 def confirm():
     def start():
+        window.destroy()
         delcount = 0
         p = Path(path)
-        length = len(list(p.glob("**/*")))
         count = 0
         for item in p.glob("**/*"):
             count += 1
@@ -115,10 +119,11 @@ def confirm():
                 if check_date(clicked5.get(), int(e_year3.get()), int(e_month3.get()), int(e_day3.get()), access_year, access_month, modify_day):
                     continue
             delcount += 1
+            
             send2trash(item) #sends item to trash
         
         done = Toplevel() #creates a window to tell the user that files have been deleted
-        label_done = Label(done, text= str(delcount)+ " files have been deleted")
+        label_done = Label(done, text= str(delcount)+ " files have been moved to the trash")
         button_done = Button(done, text="Ok", command=done.destroy)
         label_done.pack()
         button_done.pack()
@@ -127,48 +132,48 @@ def confirm():
     global file_chosen
     label_error.destroy()
     if file_chosen == False: #checks if the user has selected a file
-        label_error = Label(root, text="Please choose a file", fg="red")
-        label_error.grid(row=7, column=0, columnspan=2)
+        label_error = Label(root, text="Please choose a file", fg="red", bg="systemTransparent")
+        label_error.grid(row=7, column=0, columnspan=2, sticky="w")
         return
     if var1.get() == 0 and var2.get() == 0 and var3.get() == 0 and var4.get() == 0 and var5.get() == 0: #checks if the user has selected at least one checkbox
-        label_error = Label(root, text="Please choose at least one requirement", fg="red")
-        label_error.grid(row=7, column=0, columnspan=3)
+        label_error = Label(root, text="Please choose at least one requirement", fg="red", bg="systemTransparent")
+        label_error.grid(row=7, column=0, columnspan=3, sticky="w")
         return
     if var1.get() == 1 and e_file_type.get() == "": #checks if the user has inputed their file type
-        label_error = Label(root, text="Please input a file type", fg="red")
-        label_error.grid(row=7, column=0, columnspan=2)
+        label_error = Label(root, text="Please input a file type", fg="red", bg="systemTransparent")
+        label_error.grid(row=7, column=0, columnspan=2, sticky="w")
         return
     if var1.get() == 1 and e_file_type.get()[0] != ".": #checks if the file type is inputed in the correct format
-        label_error = Label(root, text="File type has to  with a .", fg="red")
-        label_error.grid(row=7, column=0, columnspan=2)
+        label_error = Label(root, text="File type has to  with a .", fg="red", bg="systemTransparent")
+        label_error.grid(row=7, column=0, columnspan=2, sticky="w")
         return
     if var2.get() == 1 and e_file_size.get() == "": #checks if the user has inputed their file size
-        label_error = Label(root, text="Please input a file size", fg="red")
-        label_error.grid(row=7, column=0, columnspan=2)
+        label_error = Label(root, text="Please input a file size", fg="red", bg="systemTransparent")
+        label_error.grid(row=7, column=0, columnspan=2, sticky="w")
         return
     if var2.get() == 1 and e_file_size.get().isalpha(): #checks if the file size inputed is a number
-        label_error = Label(root, text="Invalid input for file size", fg="red")
-        label_error.grid(row=7, column=0, columnspan=2)
+        label_error = Label(root, text="Invalid input for file size", fg="red", bg="systemTransparent")
+        label_error.grid(row=7, column=0, columnspan=2, sticky="w")
         return
     if var2.get() == 1: #check if the file size inputed is a positive number
         if float(e_file_size.get()) < 0: 
-            label_error = Label(root, text="Invalid input for file size", fg="red")
-            label_error.grid(row=7, column=0, columnspan=2)
+            label_error = Label(root, text="Invalid input for file size", fg="red", bg="systemTransparent")
+            label_error.grid(row=7, column=0, columnspan=2, sticky="w")
             return
     if var3.get() == 1: #check if the creation date is inputed in the correct format
         if validate_date(e_year1.get(),e_month1.get(),e_day1.get()):
-            label_error = Label(root, text="Invalid input for creation date", fg="red")
-            label_error.grid(row=7, column=0, columnspan=2)
+            label_error = Label(root, text="Invalid input for creation date", fg="red", bg="systemTransparent")
+            label_error.grid(row=7, column=0, columnspan=2, sticky="w")
             return
     if var4.get() == 1: #check if the modification date is inputed in the correct format
         if validate_date(e_year2.get(),e_month2.get(),e_day2.get()):
-            label_error = Label(root, text="Invalid input for modification date", fg="red")
-            label_error.grid(row=7, column=0, columnspan=2)
+            label_error = Label(root, text="Invalid input for modification date", fg="red", bg="systemTransparent")
+            label_error.grid(row=7, column=0, columnspan=2, sticky="w")
             return
     if var5.get() == 1: #check if the accessed date is inputed in the correct format
         if validate_date(e_year3.get(),e_month3.get(),e_day3.get()):
-            label_error = Label(root, text="Invalid input for accessed date", fg="red")
-            label_error.grid(row=7, column=0, columnspan=2)
+            label_error = Label(root, text="Invalid input for accessed date", fg="red", bg="systemTransparent")
+            label_error.grid(row=7, column=0, columnspan=2, sticky="w")
             return
 
     window = Toplevel() #creates a window to confirm if the user wants to start deleting files
@@ -212,62 +217,139 @@ def instructions(): #creates window with list of instructions
     label4.pack()
     close.pack()
 
+def settings():
+    def theme(a, b):
+        root.config(bg=a)
+        
+        label_folder_chosen.config(bg=a, fg=b)
+        button_folder.config(highlightbackground=a)
+
+        c1.config(bg=a)
+        label_file_type.config(bg=a, fg=b)
+        type_menu.config(bg=a)
+        e_file_type.config(highlightbackground=a, bg=a, fg=b)
+
+        c2.config(bg=a)
+        label_file_size.config(bg=a, fg=b)
+        menu.config(bg=a)
+        e_file_size.config(highlightbackground=a, bg=a, fg=b)
+        size_menu.config(bg=a)
+
+        c3.config(bg=a)
+        label_file_creation.config(bg=a, fg=b)
+        timing_menu1.config(bg=a)
+        e_day1.config(highlightbackground=a, bg=a, fg=b)
+        label_dash1.config(bg=a, fg=b)
+        e_month1.config(highlightbackground=a, bg=a, fg=b)
+        label_dash2.config(bg=a, fg=b)
+        e_year1.config(highlightbackground=a, bg=a, fg=b)
+
+        c4.config(bg=a)
+        label_file_modification.config(bg=a, fg=b)
+        timing_menu2.config(bg=a)
+        e_day2.config(highlightbackground=a, bg=a, fg=b)
+        label_dash3.config(bg=a, fg=b)
+        e_month2.config(highlightbackground=a, bg=a, fg=b)
+        label_dash4.config(bg=a, fg=b)
+        e_year2.config(highlightbackground=a, bg=a, fg=b)
+
+        c5.config(bg=a)
+        label_file_accessed.config(bg=a, fg=b)
+        timing_menu3.config(bg=a)
+        e_day3.config(highlightbackground=a, bg=a, fg=b)
+        label_dash5.config(bg=a, fg=b)
+        e_month3.config(highlightbackground=a, bg=a, fg=b)
+        label_dash6.config(bg=a, fg=b)
+        e_year3.config(highlightbackground=a, bg=a, fg=b)
+
+        button_confirm.config(highlightbackground=a)
+        button_quit.config(highlightbackground=a)
+        button_help.config(highlightbackground=a)
+        button_settings.config(highlightbackground=a)
+
+        window.config(bg=a)
+        label_theme.config(bg=a, fg=b)
+        button_theme1.config(highlightbackground=a)
+        button_theme2.config(highlightbackground=a)
+        button_theme3.config(highlightbackground=a)
+        button_save.config(highlightbackground=a)
+
+    def save():
+        window.destroy()
+    
+    window = Toplevel()
+    button_theme1 = Button(window, text="White", command= lambda: theme("white", "black"))
+    button_theme1.config(width=8)
+    button_theme2 = Button(window, text="Black", command= lambda: theme("black", "white"))
+    button_theme2.config(width=8)
+    button_theme3 = Button(window, text="Grey", command= lambda: theme("grey", "white"))
+    button_theme3.config(width=8)
+    button_save = Button(window, text="Save", command=save)
+    button_save.config(width=8)
+    label_theme = Label(window, text="Choose a theme")
+    label_theme.grid(row=0, column=0)
+    button_theme1.grid(row=1, column= 0)
+    button_theme2.grid(row=1, column= 1)
+    button_theme3.grid(row=1, column= 2)
+    button_save.grid(row=2, column=0)
+
 chosen = StringVar()
 chosen.set("Choose file")
 
-label_file_type = Label(root, text="File type", bg="grey", fg="white")
-label_file_size = Label(root, text="File size", bg="grey", fg="white")
-label_file_creation = Label(root, text="Creation date", bg="grey", fg="white")
-label_file_modification = Label(root, text="Modification date", bg="grey", fg="white")
-label_file_accessed = Label(root, text="Accessed date", bg="grey", fg="white")
-label_folder_chosen = Label(root, text="Chosen file", bg="grey", fg="white")
+label_file_type = Label(root, text="File type", bg=background_colour, fg=text_colour)
+label_file_size = Label(root, text="File size", bg=background_colour, fg=text_colour)
+label_file_creation = Label(root, text="Creation date", bg=background_colour, fg=text_colour)
+label_file_modification = Label(root, text="Modification date", bg=background_colour, fg=text_colour)
+label_file_accessed = Label(root, text="Accessed date", bg=background_colour, fg=text_colour)
+label_folder_chosen = Label(root, text="Chosen file", bg=background_colour, fg=text_colour)
 
-label_dash1 = Label(root, text="-", bg="grey", fg="white")
-label_dash2 = Label(root, text="-", bg="grey", fg="white")
-label_dash3 = Label(root, text="-", bg="grey", fg="white")
-label_dash4 = Label(root, text="-", bg="grey", fg="white")
-label_dash5 = Label(root, text="-", bg="grey", fg="white")
-label_dash6 = Label(root, text="-", bg="grey", fg="white")
+label_dash1 = Label(root, text="-", bg=background_colour, fg=text_colour)
+label_dash2 = Label(root, text="-", bg=background_colour, fg=text_colour)
+label_dash3 = Label(root, text="-", bg=background_colour, fg=text_colour)
+label_dash4 = Label(root, text="-", bg=background_colour, fg=text_colour)
+label_dash5 = Label(root, text="-", bg=background_colour, fg=text_colour)
+label_dash6 = Label(root, text="-", bg=background_colour, fg=text_colour)
 
-button_quit = Button(root, text="Quit", command=check, highlightbackground="grey")
-button_confirm = Button(root, text="Confirm", command=confirm, highlightbackground="grey")
-button_folder = Button(root, textvariable=chosen, command=folder, width=15, highlightbackground="grey")
-button_help = Button(root, text="Help", command=instructions, highlightbackground="grey")
+button_quit = Button(root, text="Quit", command=check, highlightbackground=background_colour)
+button_confirm = Button(root, text="Confirm", command=confirm, highlightbackground=background_colour)
+button_folder = Button(root, textvariable=chosen, command=folder, width=15, highlightbackground=background_colour)
+button_help = Button(root, text="Help", command=instructions, highlightbackground=background_colour)
+button_settings = Button(root, text="Settings", command=settings, highlightbackground=background_colour)
 
 e_file_type = Entry(root, width=9, highlightthickness=1)
-e_file_type.config(highlightbackground="grey", bg="grey", fg="white")
+e_file_type.config(highlightbackground=background_colour, bg=background_colour, fg=text_colour)
 e_file_size = Entry(root, width=9, highlightthickness=1)
-e_file_size.config(highlightbackground="grey", bg="grey", fg="white")
+e_file_size.config(highlightbackground=background_colour, bg=background_colour, fg=text_colour)
 
 e_day1 = Entry(root, width=3, justify="center", highlightthickness=1)
 e_day1.insert(0, "dd")
-e_day1.config(bg="grey", fg="white", highlightbackground="grey")
+e_day1.config(bg=background_colour, fg=text_colour, highlightbackground=background_colour)
 e_month1 = Entry(root, width=3, justify="center", highlightthickness=1)
 e_month1.insert(0, "mm")
-e_month1.config(bg="grey", fg="white", highlightbackground="grey")
+e_month1.config(bg=background_colour, fg=text_colour, highlightbackground=background_colour)
 e_year1 = Entry(root, width=4, justify="center", highlightthickness=1)
 e_year1.insert(0, "yyyy")
-e_year1.config(bg="grey", fg="white", highlightbackground="grey")
+e_year1.config(bg=background_colour, fg=text_colour, highlightbackground=background_colour)
 
 e_day2 = Entry(root, width=3, justify="center", highlightthickness=1)
 e_day2.insert(0, "dd")
-e_day2.config(bg="grey", fg="white", highlightbackground="grey")
+e_day2.config(bg=background_colour, fg=text_colour, highlightbackground=background_colour)
 e_month2 = Entry(root, width=3, justify="center", highlightthickness=1)
 e_month2.insert(0, "mm")
-e_month2.config(bg="grey", fg="white", highlightbackground="grey")
+e_month2.config(bg=background_colour, fg=text_colour, highlightbackground=background_colour)
 e_year2 = Entry(root, width=4, justify="center", highlightthickness=1)
 e_year2.insert(0, "yyyy")
-e_year2.config(bg="grey", fg="white", highlightbackground="grey")
+e_year2.config(bg=background_colour, fg=text_colour, highlightbackground=background_colour)
 
 e_day3 = Entry(root, width=3, justify="center", highlightthickness=1)
 e_day3.insert(0, "dd")
-e_day3.config(bg="grey", fg="white", highlightbackground="grey")
+e_day3.config(bg=background_colour, fg=text_colour, highlightbackground=background_colour)
 e_month3 = Entry(root, width=3, justify="center", highlightthickness=1)
 e_month3.insert(0, "mm")
-e_month3.config(bg="grey", fg="white", highlightbackground="grey")
+e_month3.config(bg=background_colour, fg=text_colour, highlightbackground=background_colour)
 e_year3 = Entry(root, width=4, justify="center", highlightthickness=1)
 e_year3.insert(0, "yyyy")
-e_year3.config(bg="grey", fg="white", highlightbackground="grey")
+e_year3.config(bg=background_colour, fg=text_colour, highlightbackground=background_colour)
 
 sizes = ["KB", "MB", "GB", "TB"]
 
@@ -285,17 +367,17 @@ clicked6 = StringVar()
 clicked6.set("Before")
 
 size_menu = OptionMenu(root, clicked1, *sizes)
-size_menu.config(width=4, bg="grey")
+size_menu.config(width=4, bg=background_colour)
 menu = OptionMenu(root, clicked2, "Greater than", "Less than", "Equal to")
-menu.config(width=9, bg="grey")
+menu.config(width=9, bg=background_colour)
 timing_menu1 = OptionMenu(root, clicked3, "Before", "After", "On")
-timing_menu1.config(width=9, bg="grey")
+timing_menu1.config(width=9, bg=background_colour)
 timing_menu2 = OptionMenu(root, clicked4, "Before", "After", "On")
-timing_menu2.config(width=9, bg="grey")
+timing_menu2.config(width=9, bg=background_colour)
 type_menu = OptionMenu(root, clicked5, "is", "is not")
-type_menu.config(width=9, bg="grey")
+type_menu.config(width=9, bg=background_colour)
 timing_menu3 = OptionMenu(root, clicked6, "Before", "After", "On")
-timing_menu3.config(width=9, bg="grey")
+timing_menu3.config(width=9, bg=background_colour)
 
 var1 = IntVar() #creating integer variables which is used for the checkboxes
 var2 = IntVar()
@@ -303,55 +385,56 @@ var3 = IntVar()
 var4 = IntVar()
 var5 = IntVar()
 
-c1 = Checkbutton(root, variable=var1, bg="grey") #creating checkbox variables
-c2 = Checkbutton(root, variable=var2, bg="grey")
-c3 = Checkbutton(root, variable=var3, bg="grey")
-c4 = Checkbutton(root, variable=var4, bg="grey")
-c5 = Checkbutton(root, variable=var5, bg="grey")
+c1 = Checkbutton(root, variable=var1, bg=background_colour) #creating checkbox variables
+c2 = Checkbutton(root, variable=var2, bg=background_colour)
+c3 = Checkbutton(root, variable=var3, bg=background_colour)
+c4 = Checkbutton(root, variable=var4, bg=background_colour)
+c5 = Checkbutton(root, variable=var5, bg=background_colour)
 
 label_folder_chosen.grid(row=0, column=0) #adding items for the first row of the screen
-button_folder.grid(row=0, column=1) 
+button_folder.grid(row=0, column=1, columnspan=2) 
 
 c1.grid(row=1, column=0) #adding items for the second row of the screen
-label_file_type.grid(row=1, column=1, sticky="w") 
-type_menu.grid(row=1, column=2, sticky="w") 
-e_file_type.grid(row=1, column=3, columnspan=3) 
+label_file_type.grid(row=1, column=1, sticky="w", columnspan=2) 
+type_menu.grid(row=1, column=3, sticky="w") 
+e_file_type.grid(row=1, column=4, columnspan=3) 
 
 c2.grid(row=2, column=0) #adding items for the third row of the screen
-label_file_size.grid(row=2, column=1, sticky="w") 
-menu.grid(row=2, column=2, sticky="w") 
-e_file_size.grid(row=2, column=3, columnspan=3) 
-size_menu.grid(row=2, column=6, columnspan=2, sticky="w") 
+label_file_size.grid(row=2, column=1, sticky="w", columnspan=2) 
+menu.grid(row=2, column=3, sticky="w") 
+e_file_size.grid(row=2, column=4, columnspan=3) 
+size_menu.grid(row=2, column=7, columnspan=2, sticky="w") 
 
 c3.grid(row=3, column=0) #adding items for the fourth row of the screen
-label_file_creation.grid(row=3, column=1, sticky="w") 
-timing_menu1.grid(row=3, column=2, sticky="w")
-e_day1.grid(row=3, column=3, sticky="e")
-label_dash1.grid(row=3, column=4)
-e_month1.grid(row=3, column=5, sticky="w")
-label_dash2.grid(row=3, column=6)
-e_year1.grid(row=3, column=7, sticky="w")
+label_file_creation.grid(row=3, column=1, sticky="w", columnspan=2) 
+timing_menu1.grid(row=3, column=3, sticky="w")
+e_day1.grid(row=3, column=4, sticky="e")
+label_dash1.grid(row=3, column=5)
+e_month1.grid(row=3, column=6, sticky="w")
+label_dash2.grid(row=3, column=7)
+e_year1.grid(row=3, column=8, sticky="w")
 
 c4.grid(row=4, column=0) #adding items for the fifth row of the screen
-label_file_modification.grid(row=4, column=1, sticky="w")
-timing_menu2.grid(row=4, column=2, sticky="w")
-e_day2.grid(row=4, column=3, sticky="e")
-label_dash3.grid(row=4, column=4)
-e_month2.grid(row=4, column=5, sticky="w")
-label_dash4.grid(row=4, column=6)
-e_year2.grid(row=4, column=7, sticky="w")
+label_file_modification.grid(row=4, column=1, sticky="w", columnspan=2)
+timing_menu2.grid(row=4, column=3, sticky="w")
+e_day2.grid(row=4, column=4, sticky="e")
+label_dash3.grid(row=4, column=5)
+e_month2.grid(row=4, column=6, sticky="w")
+label_dash4.grid(row=4, column=7)
+e_year2.grid(row=4, column=8, sticky="w")
 
 c5.grid(row=5, column=0) #adding items for the sixth row of the screen
-label_file_accessed.grid(row=5, column=1, sticky="w")
-timing_menu3.grid(row=5, column=2, sticky="w")
-e_day3.grid(row=5, column=3, sticky="e")
-label_dash5.grid(row=5, column=4)
-e_month3.grid(row=5, column=5, sticky="w")
-label_dash6.grid(row=5, column=6)
-e_year3.grid(row=5, column=7, sticky="w")
+label_file_accessed.grid(row=5, column=1, sticky="w", columnspan=2)
+timing_menu3.grid(row=5, column=3, sticky="w")
+e_day3.grid(row=5, column=4, sticky="e")
+label_dash5.grid(row=5, column=5)
+e_month3.grid(row=5, column=6, sticky="w")
+label_dash6.grid(row=5, column=7)
+e_year3.grid(row=5, column=8, sticky="w")
 
 button_confirm.grid(row=6, column=0) #adding items for the seventh row of the screen
 button_quit.grid(row=6, column=1)
 button_help.grid(row=6, column=2)
+button_settings.grid(row=6, column=3, sticky="w")
 
 root.mainloop()
