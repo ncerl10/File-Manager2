@@ -68,9 +68,7 @@ def check_date(v, y, m, d, ny, nm, nd):
         if y != ny and m != nm and d != nd:
             return True
     return False
-
-        
-    
+ 
 def confirm():
     def start():
         delcount = 0
@@ -115,18 +113,6 @@ def confirm():
                 access_month = int(access_date[5:7])
                 access_day = int(access_date[8:10])
                 if check_date(clicked5.get(), int(e_year3.get()), int(e_month3.get()), int(e_day3.get()), access_year, access_month, modify_day):
-                    continue
-                if clicked5.get() == "Before" and int(e_year3.get()) < access_year:
-                    continue
-                elif clicked5.get() == "Before" and int(e_month3.get()) < access_month:
-                    continue
-                elif clicked5.get() == "Before" and int(e_day3.get()) < access_day:
-                    continue
-                if clicked5.get() == "After" and int(e_year3.get()) > access_year:
-                    continue
-                elif clicked5.get() == "After" and int(e_month3.get()) > access_month:
-                    continue
-                elif clicked5.get() == "After" and int(e_day3.get()) > access_day:
                     continue
             delcount += 1
             send2trash(item) #sends item to trash
