@@ -32,6 +32,26 @@ def validate_date(y,m,d): #year, month, day
                     return False
     return True
 
+def check_date(v, y, m, d, ny, nm, nd):
+    if v == "Before":
+        if y < ny:
+            return True
+        if m < nm:
+            return True
+        if d < nd:
+            return True
+    if v == "After":
+        if y > ny:
+            return True
+        if m > nm:
+            return True
+        if d > nd:
+            return True
+    if v == "On":
+        if y != ny and m != nm and d != nd:
+            return True
+    return False
+
         
     
 def confirm():
@@ -53,27 +73,15 @@ def confirm():
                     continue
                 elif clicked2.get() == "Less than" and item.stat().st_size > size:
                     continue
+                elif clicked2.get() == "Equal to" and item.stat().st_size != size:
+                    continue
             if var3.get() == 1:
                 create_date = datetime.fromtimestamp(item.stat().st_ctime)
                 create_date = str(create_date)
                 create_year = int(create_date[:4])
                 create_month = int(create_date[5:7])
                 create_day = int(create_date[8:10])
-                create_hour = int(create_date[11:13])
-                create_minute = int(create_date[14:16])
-                create_second = int(create_date[17:19])
-                print(create_date, create_year, e_year1.get())
-                if clicked3.get() == "Before" and int(e_year1.get()) < create_year:
-                    continue
-                elif clicked3.get() == "Before" and int(e_month1.get()) < create_month:
-                    continue
-                elif clicked3.get() == "Before" and int(e_day1.get()) < create_day:
-                    continue
-                if clicked3.get() == "After" and int(e_year1.get()) > create_year:
-                    continue
-                elif clicked3.get() == "After" and int(e_month1.get()) > create_month:
-                    continue
-                elif clicked3.get() == "After" and int(e_day1.get()) > create_day:
+                if check_date(clicked3.get(), int(e_year1.get()), int(e_month1.get()), int(e_day1.get()), create_year, create_month, create_day):
                     continue
             if var4.get() == 1:
                 modify_date = datetime.fromtimestamp(item.stat().st_mtime)
@@ -81,20 +89,7 @@ def confirm():
                 modify_year = int(modify_date[:4])
                 modify_month = int(modify_date[5:7])
                 modify_day = int(modify_date[8:10])
-                modify_hour = int(modify_date[11:13])
-                modify_minute = int(modify_date[14:16])
-                modify_second = int(modify_date[17:19])
-                if clicked4.get() == "Before" and int(e_year2.get()) < modify_year:
-                    continue
-                elif clicked4.get() == "Before" and int(e_month2.get()) < modify_month:
-                    continue
-                elif clicked4.get() == "Before" and int(e_day2.get()) < modify_day:
-                    continue
-                if clicked4.get() == "After" and int(e_year2.get()) > modify_year:
-                    continue
-                elif clicked4.get() == "After" and int(e_month2.get()) > modify_month:
-                    continue
-                elif clicked4.get() == "After" and int(e_day2.get()) > modify_day:
+                if check_date(clicked4.get(), int(e_year2.get()), int(e_month2.get()), int(e_day2.get()), modify_year, modify_month, modify_day):
                     continue
             if var5.get() == 1:
                 access_date = datetime.fromtimestamp(item.stat().st_atime)
@@ -102,9 +97,8 @@ def confirm():
                 access_year = int(access_date[:4])
                 access_month = int(access_date[5:7])
                 access_day = int(access_date[8:10])
-                access_hour = int(access_date[11:13])
-                access_minute = int(access_date[14:16])
-                access_second = int(access_date[17:19])
+                if check_date(clicked5.get(), int(e_year3.get()), int(e_month3.get()), int(e_day3.get()), access_year, access_month, modify_day):
+                    continue
                 if clicked5.get() == "Before" and int(e_year3.get()) < access_year:
                     continue
                 elif clicked5.get() == "Before" and int(e_month3.get()) < access_month:
