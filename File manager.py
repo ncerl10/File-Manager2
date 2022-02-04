@@ -19,10 +19,16 @@ label_error = Label(root)
 
 def loadOptions():
     data = []
+    dataReturn = []
     with open('options.txt') as f:
         data = f.readlines()
-    return data
-print(data)
+    for a in data: #filters through all the strings, finds a number (which is assumed to be the value associated with the data line) and appends it
+        for i in a:
+            if i.isnumeric():
+                dataReturn.append(int(i)) #Limitations: value cannot be a two digit number or greater, the label of the data cannot include a number
+                break
+    return dataReturn #returns only the value of each line of option in a list, in the following format: theme, deleteType 
+
     
 def validate_date(y,m,d): #year, month, day
     common_year = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
