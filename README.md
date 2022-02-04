@@ -4,7 +4,8 @@ There are currently 5 parameters to delete files: type (filename extension), siz
 
 Additional information can be found by clicking the "help" button in the menu.
 
-Libraries used: 
+
+# Libraries used: 
 Send2Trash - https://pypi.org/project/Send2Trash/
 
 
