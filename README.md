@@ -1,4 +1,4 @@
-# File-Manager2
+# File-Manager
 
 There are currently 5 parameters to delete files: type (filename extension), size, creation date, modification date and accessed date
 
