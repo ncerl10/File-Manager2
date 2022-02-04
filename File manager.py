@@ -17,6 +17,13 @@ path = ""
 file_chosen = False
 label_error = Label(root)
 
+def loadOptions():
+    data = []
+    with open('options.txt') as f:
+        data = f.readlines()
+    return data
+print(data)
+    
 def validate_date(y,m,d): #year, month, day
     common_year = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
     leap_year = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
