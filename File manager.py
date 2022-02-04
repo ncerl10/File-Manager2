@@ -16,7 +16,7 @@ root.config(bg="grey")
 path = ""
 file_chosen = False
 label_error = Label(root)
-
+dataLabel = ['themeID','deleteType'] 
 def loadOptions():
     data = []
     dataReturn = []
@@ -29,7 +29,11 @@ def loadOptions():
                 break
     return dataReturn #returns only the value of each line of option in a list, in the following format: theme, deleteType 
 
-    
+def saveOptions(d): #the parameter d is a list in the same format as dataReturn
+    with open('options.txt', "w") as f:
+        for x in range(len(d)):
+            f.write(dataLabel[x]+": "+ str(d[x]) + "\n")
+
 def validate_date(y,m,d): #year, month, day
     common_year = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
     leap_year = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
