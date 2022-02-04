@@ -5,7 +5,7 @@ from tkinter import filedialog
 from pathlib import Path
 from tkinter import ttk
 import time
-
+from send2trash import send2trash
 #importing necessary libraries and modules
 
 root = Tk() #creating the screen
@@ -112,7 +112,7 @@ def confirm():
                 elif clicked5.get() == "After" and int(e_day3.get()) > access_day:
                     continue
             delcount += 1
-            os.remove(item)
+            send2trash(item) #sends item to trash
         
         done = Toplevel() #creates a window to tell the user that files have been deleted
         label_done = Label(done, text= str(delcount)+ " files have been deleted")
