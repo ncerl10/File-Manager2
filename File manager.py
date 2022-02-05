@@ -50,7 +50,7 @@ def validate_date(y,m,d): #year, month, day
                     return False
     return True
 
-def check_date(v, y, m, d, ny, nm, nd):
+def check_date(v, y, m, d, ny, nm, nd): #checks if the date fits the criteria
     print(y, ny)
     print(m, nm)
     print(d, nd)
@@ -73,7 +73,7 @@ def check_date(v, y, m, d, ny, nm, nd):
             return True
     return False
  
-def confirm():
+def confirm(): #activates when the confirm button starts
     def start():
         window.destroy()
         delcount = 0
@@ -131,6 +131,7 @@ def confirm():
     global label_error
     global file_chosen
     label_error.destroy()
+    #input validation
     if file_chosen == False: #checks if the user has selected a file
         label_error = Label(root, text="Please choose a file", fg="red", bg="systemTransparent")
         label_error.grid(row=7, column=0, columnspan=2, sticky="w")
@@ -219,8 +220,8 @@ def instructions(): #creates window with list of instructions
     label5.pack()
     close.pack()
 
-def settings():
-    def theme(a, b):
+def settings(): #activate when the user press the settings button
+    def theme(a, b): #changes the theme of the app
         root.config(bg=a)
         
         label_folder_chosen.config(bg=a, fg=b)
@@ -279,7 +280,7 @@ def settings():
     def save():
         window.destroy()
     
-    window = Toplevel()
+    window = Toplevel() #creates a menu that allows the user to change the theme of the app
     button_theme1 = Button(window, text="White", command= lambda: theme("white", "black"))
     button_theme1.config(width=8)
     button_theme2 = Button(window, text="Black", command= lambda: theme("black", "white"))
@@ -298,6 +299,7 @@ def settings():
 chosen = StringVar()
 chosen.set("Choose file")
 
+#creating necessary labels
 label_file_type = Label(root, text="File type", bg=background_colour, fg=text_colour)
 label_file_size = Label(root, text="File size", bg=background_colour, fg=text_colour)
 label_file_creation = Label(root, text="Creation date", bg=background_colour, fg=text_colour)
@@ -312,12 +314,14 @@ label_dash4 = Label(root, text="-", bg=background_colour, fg=text_colour)
 label_dash5 = Label(root, text="-", bg=background_colour, fg=text_colour)
 label_dash6 = Label(root, text="-", bg=background_colour, fg=text_colour)
 
+#creating necessary buttons
 button_quit = Button(root, text="Quit", command=check, highlightbackground=background_colour)
 button_confirm = Button(root, text="Confirm", command=confirm, highlightbackground=background_colour)
 button_folder = Button(root, textvariable=chosen, command=folder, width=15, highlightbackground=background_colour)
 button_help = Button(root, text="Help", command=instructions, highlightbackground=background_colour)
 button_settings = Button(root, text="Settings", command=settings, highlightbackground=background_colour)
 
+#creating necessary entries
 e_file_type = Entry(root, width=9, highlightthickness=1)
 e_file_type.config(highlightbackground=background_colour, bg=background_colour, fg=text_colour)
 e_file_size = Entry(root, width=9, highlightthickness=1)
@@ -353,6 +357,7 @@ e_year3 = Entry(root, width=4, justify="center", highlightthickness=1)
 e_year3.insert(0, "yyyy")
 e_year3.config(bg=background_colour, fg=text_colour, highlightbackground=background_colour)
 
+#creating necessary variables for the option menus
 sizes = ["KB", "MB", "GB", "TB"]
 
 clicked1 = StringVar()
@@ -368,6 +373,7 @@ clicked5.set("is")
 clicked6 = StringVar()
 clicked6.set("Before")
 
+#creating necessary option menus
 size_menu = OptionMenu(root, clicked1, *sizes)
 size_menu.config(width=4, bg=background_colour)
 menu = OptionMenu(root, clicked2, "Greater than", "Less than", "Equal to")
@@ -387,6 +393,7 @@ var3 = IntVar()
 var4 = IntVar()
 var5 = IntVar()
 
+#creating necessary checkboxes
 c1 = Checkbutton(root, variable=var1, bg=background_colour) #creating checkbox variables
 c2 = Checkbutton(root, variable=var2, bg=background_colour)
 c3 = Checkbutton(root, variable=var3, bg=background_colour)
