@@ -16,10 +16,16 @@ def loadOptions():
 def saveOptions(d): #the parameter d is a list in the same format as dataReturn
     with open('options.txt', "w") as f:
         for x in d:
-            f.write(x+'\n')
-            
-background_colour = loadOptions()[0]
-text_colour = loadOptions()[1]
+          f.write(x+'\n')
+background_colour = 'grey'
+text_colour = 'white'
+try:
+    background_colour = loadOptions()[0]
+    text_colour = loadOptions()[1]
+except:
+    pass
+
+print(background_colour,text_colour)
 
 root = Tk() #creating the screen
 root.title("File manager") #editing the tile of the screen
@@ -281,8 +287,10 @@ def settings(): #activate when the user press the settings button
         button_save.config(highlightbackground=a)
 
     def save():
-        
-        saveOptions(currSelect)
+        try:
+            saveOptions(currSelect)
+        except:
+            print('error saving data')
         window.destroy()
     
     window = Toplevel() #creates a menu that allows the user to change the theme of the app
