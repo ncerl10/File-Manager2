@@ -210,11 +210,13 @@ def instructions(): #creates window with list of instructions
     label2 = Label(window, text="Start by choosing a folder which contents you would like to sort")
     label3 = Label(window, text="Next, select which parameters you would like to use")
     label4 = Label(window, text="Finally, fill up the necessary information then press confirm to start sorting")
+    label5 = Label(window, text="The files will then be moved into your bin")
     close = Button(window, text="Close", command=window.destroy)
     label1.pack()
     label2.pack()
     label3.pack()
     label4.pack()
+    label5.pack()
     close.pack()
 
 def settings():
