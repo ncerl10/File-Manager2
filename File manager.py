@@ -4,9 +4,22 @@ from tkinter import filedialog
 from pathlib import Path
 from send2trash import send2trash
 #importing necessary libraries and modules
+def loadOptions():
+    data = []
+    dataReturn = []
+    with open('options.txt') as f:
+        data = f.readlines()
+    for a in data: #filters through all the strings, finds a number (which is assumed to be the value associated with the data line) and appends it
+        dataReturn.append(a[:-1])
+    return dataReturn #returns only the value of each line of option in a list, in the following format: theme, deleteType 
 
-background_colour = "grey"
-text_colour = "white"
+def saveOptions(d): #the parameter d is a list in the same format as dataReturn
+    with open('options.txt', "w") as f:
+        for x in d:
+            f.write(x+'\n')
+            
+background_colour = loadOptions()[0]
+text_colour = loadOptions()[1]
 
 root = Tk() #creating the screen
 root.title("File manager") #editing the tile of the screen
@@ -18,22 +31,7 @@ file_chosen = False
 label_error = Label(root)
 dataLabel = ['themeID','deleteType'] 
 
-def loadOptions():
-    data = []
-    dataReturn = []
-    with open('options.txt') as f:
-        data = f.readlines()
-    for a in data: #filters through all the strings, finds a number (which is assumed to be the value associated with the data line) and appends it
-        for i in a:
-            if i.isnumeric():
-                dataReturn.append(int(i)) #Limitations: value cannot be a two digit number or greater, the label of the data cannot include a number
-                break
-    return dataReturn #returns only the value of each line of option in a list, in the following format: theme, deleteType 
 
-def saveOptions(d): #the parameter d is a list in the same format as dataReturn
-    with open('options.txt', "w") as f:
-        for x in range(len(d)):
-            f.write(dataLabel[x]+": "+ str(d[x]) + "\n")
 
 def validate_date(y,m,d): #year, month, day
     common_year = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
@@ -221,7 +219,12 @@ def instructions(): #creates window with list of instructions
     close.pack()
 
 def settings(): #activate when the user press the settings button
+    global currSelect
+    currSelect = [background_colour,text_colour]
     def theme(a, b): #changes the theme of the app
+        global currSelect
+        currSelect = [a,b]
+        
         root.config(bg=a)
         
         label_folder_chosen.config(bg=a, fg=b)
@@ -278,6 +281,8 @@ def settings(): #activate when the user press the settings button
         button_save.config(highlightbackground=a)
 
     def save():
+        
+        saveOptions(currSelect)
         window.destroy()
     
     window = Toplevel() #creates a menu that allows the user to change the theme of the app

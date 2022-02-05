@@ -1,2 +1,2 @@
-themeID: 1
-deleteType: 0
+grey
+white
