@@ -6,7 +6,7 @@ Instructions can be found by clicking the "help" button in the menu.
 
 
 # Libraries used: 
-Send2Trash - https://pypi.org/project/Send2Trash/
+Send2Trash (1.8 and above)- https://pypi.org/project/Send2Trash/
 
 
 
