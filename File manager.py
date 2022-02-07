@@ -124,9 +124,14 @@ def confirm(): #activates when the confirm button starts
                 if check_date(clicked5.get(), int(e_year3.get()), int(e_month3.get()), int(e_day3.get()), access_year, access_month, modify_day):
                     continue
             delcount += 1
-            
-            send2trash(item) #sends item to trash
-        
+            try:
+                send2trash(item) #sends item to trash
+            except Exception as error:
+                
+                print("error occured, deleting files instead of sending to trash: ")
+                print(error)
+                os.remove(item)
+                
         done = Toplevel() #creates a window to tell the user that files have been deleted
         label_done = Label(done, text= str(delcount)+ " files have been moved to the trash")
         button_done = Button(done, text="Ok", command=done.destroy)
