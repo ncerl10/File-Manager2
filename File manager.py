@@ -31,6 +31,7 @@ root = Tk() #creating the screen
 root.title("File manager") #editing the tile of the screen
 root.geometry("600x200") #changing the dimension of the screen
 root.config(bg=background_colour)
+root.update_idletasks()
 
 path = ""
 file_chosen = False
