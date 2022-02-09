@@ -1,8 +1,13 @@
 from tkinter import *
 from datetime import datetime
 from tkinter import filedialog
+import os
 from pathlib import Path
-from send2trash import send2trash
+try:
+    from send2trash import send2trash
+except Exception as e:
+    print(e)
+
 #importing necessary libraries and modules
 def loadOptions():
     data = []
@@ -129,7 +134,6 @@ def confirm(): #activates when the confirm button starts
             except Exception as error:
                 
                 print("error occured, deleting files instead of sending to trash: ")
-                print(error)
                 os.remove(item)
                 
         done = Toplevel() #creates a window to tell the user that files have been deleted
@@ -301,13 +305,13 @@ def settings(): #activate when the user press the settings button
     
     window = Toplevel() #creates a menu that allows the user to change the theme of the app
     button_theme1 = Button(window, text="White", command= lambda: theme("white", "black"))
-    button_theme1.config(width=8)
+    button_theme1.config(width=12)
     button_theme2 = Button(window, text="Black", command= lambda: theme("black", "white"))
-    button_theme2.config(width=8)
+    button_theme2.config(width=12)
     button_theme3 = Button(window, text="Grey", command= lambda: theme("grey", "white"))
-    button_theme3.config(width=8)
+    button_theme3.config(width=12)
     button_save = Button(window, text="Save", command=save)
-    button_save.config(width=8)
+    button_save.config(width=12)
     label_theme = Label(window, text="Choose a theme")
     label_theme.grid(row=0, column=0)
     button_theme1.grid(row=1, column= 0)
@@ -334,11 +338,11 @@ label_dash5 = Label(root, text="-", bg=background_colour, fg=text_colour)
 label_dash6 = Label(root, text="-", bg=background_colour, fg=text_colour)
 
 #creating necessary buttons
-button_quit = Button(root, text="Quit", command=check, highlightbackground=background_colour)
-button_confirm = Button(root, text="Confirm", command=confirm, highlightbackground=background_colour)
+button_quit = Button(root, text="Quit", command=check, width=7 , highlightbackground=background_colour)
+button_confirm = Button(root, text="Confirm", command=confirm, width=9, highlightbackground=background_colour)
 button_folder = Button(root, textvariable=chosen, command=folder, width=15, highlightbackground=background_colour)
-button_help = Button(root, text="Help", command=instructions, highlightbackground=background_colour)
-button_settings = Button(root, text="Settings", command=settings, highlightbackground=background_colour)
+button_help = Button(root, text="Help", command=instructions, width=7, highlightbackground=background_colour)
+button_settings = Button(root, text="Settings", command=settings, width=12, highlightbackground=background_colour)
 
 #creating necessary entries
 e_file_type = Entry(root, width=9, highlightthickness=1)
