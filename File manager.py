@@ -1,44 +1,48 @@
-#importing necessary libraries and modules
+# importing necessary libraries and modules
 from tkinter import *
 from datetime import datetime
 from tkinter import filedialog
 import os
 from pathlib import Path
 
-#check if send2trash is working for the user, but avoids crashes
+# check if send2trash is working for the user, but avoids crashes
 try:
     from send2trash import send2trash
 except Exception as e:
     print(e)
 
-#load data
+
+# load data
 def loadOptions():
     data = []
     dataReturn = []
     with open('options.txt') as f:
-        data = f.readlines() #every line of the options.txt is now stored as a indivudal value in the list, in the following format: 'value\n'
+        data = f.readlines()  # every line of the options.txt is now stored as a indivudal value in the list, in the following format: 'value\n'
     for a in data:
         dataReturn.append(a[:-1])
     return dataReturn
 
-def saveOptions(d): #the parameter d is a list in the same format as dataReturn
+
+def saveOptions(d):  # the parameter d is a list in the same format as dataReturn
     with open('options.txt', "w") as f:
-        for x in d: #iterates through d and overrides the exisiting values with the new ones in a new line
-          f.write(x+'\n') #creates a new line
+        for x in d:  # iterates through d and overrides the exisiting values with the new ones in a new line
+            f.write(x + '\n')  # creates a new line
+
+
 background_colour = 'grey'
 text_colour = 'white'
-#for some reason, options.txt can't be opened by python for everyone. We need to load to default
+# for some reason, options.txt can't be opened by python for everyone. We need to load to default
 try:
     background_colour = loadOptions()[0]
     text_colour = loadOptions()[1]
 except:
     pass
 
-print(background_colour,text_colour)
+print(background_colour, text_colour)
 
-root = Tk() #creating the screen
-root.title("File manager") #editing the tile of the screen
-root.geometry("600x200") #changing the dimension of the screen
+root = Tk()  # creating the screen
+root.title("File manager")  # editing the tile of the screen
+root.geometry("600x200")  # changing the dimension of the screen
 root.config(bg=background_colour)
 root.update_idletasks()
 
@@ -47,23 +51,23 @@ file_chosen = False
 label_error = Label(root)
 
 
-
-
-def validate_date(y,m,d): #year, month, day
+def validate_date(y, m, d):  # year, month, day
     common_year = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
     leap_year = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-    if d.isdigit() and m.isdigit() and y.isdigit(): #check if parameters are numbers
+    if d.isdigit() and m.isdigit() and y.isdigit():  # check if parameters are numbers
         dINT, mINT, yINT = int(d), int(m), int(y)
 
-        if 0 < mINT < 13: #check if month is valid
-            if yINT % 4 == 0: #check for leap year
-                if 0 < dINT <= leap_year[mINT -1]: #check if day is valid (for leap year)
+        if 0 < mINT < 13:  # check if month is valid
+            if yINT % 4 == 0:  # check for leap year
+                if 0 < dINT <= leap_year[mINT - 1]:  # check if day is valid (for leap year)
                     return False
             else:
-                if 0 < dINT <= common_year[mINT -1]: #check if day is valid (non-leap years)
+                if 0 < dINT <= common_year[mINT - 1]:  # check if day is valid (non-leap years)
                     return False
     return True
-#checks if the file date fits the criteria of the parameter date
+
+
+# checks if the file date fits the criteria of the parameter date
 def check_date(v, y, m, d, ny, nm, nd):
     print(y, ny)
     print(m, nm)
@@ -86,15 +90,16 @@ def check_date(v, y, m, d, ny, nm, nd):
         if y != ny or m != nm or d != nd:
             return True
     return False
- 
-def confirm(): #activates when the confirm button starts
+
+
+def confirm():  # activates when the confirm button starts
     def start():
         window.destroy()
         delcount = 0
         p = Path(path)
         count = 0
 
-        #look through every file in the folder, and check what parameters are selected. Then, compare the file properties to the selected parameters and see if they match
+        # look through every file in the folder, and check what parameters are selected. Then, compare the file properties to the selected parameters and see if they match
         for item in p.glob("**/*"):
             count += 1
             if var1.get() == 1:
@@ -103,7 +108,7 @@ def confirm(): #activates when the confirm button starts
                 elif clicked5.get() == "is not" and item.suffix == e_file_type.get():
                     continue
             if var2.get() == 1:
-                size = float(e_file_size.get()) * 1000 ** (sizes.index(clicked1.get())+1)
+                size = float(e_file_size.get()) * 1000 ** (sizes.index(clicked1.get()) + 1)
                 if clicked2.get() == "Greater than" and item.stat().st_size < size:
                     continue
                 elif clicked2.get() == "Less than" and item.stat().st_size > size:
@@ -116,7 +121,8 @@ def confirm(): #activates when the confirm button starts
                 create_year = int(create_date[:4])
                 create_month = int(create_date[5:7])
                 create_day = int(create_date[8:10])
-                if check_date(clicked3.get(), int(e_year1.get()), int(e_month1.get()), int(e_day1.get()), create_year, create_month, create_day):
+                if check_date(clicked3.get(), int(e_year1.get()), int(e_month1.get()), int(e_day1.get()), create_year,
+                              create_month, create_day):
                     continue
             if var4.get() == 1:
                 modify_date = datetime.fromtimestamp(item.stat().st_mtime)
@@ -124,7 +130,8 @@ def confirm(): #activates when the confirm button starts
                 modify_year = int(modify_date[:4])
                 modify_month = int(modify_date[5:7])
                 modify_day = int(modify_date[8:10])
-                if check_date(clicked4.get(), int(e_year2.get()), int(e_month2.get()), int(e_day2.get()), modify_year, modify_month, modify_day):
+                if check_date(clicked4.get(), int(e_year2.get()), int(e_month2.get()), int(e_day2.get()), modify_year,
+                              modify_month, modify_day):
                     continue
             if var5.get() == 1:
                 access_date = datetime.fromtimestamp(item.stat().st_atime)
@@ -132,18 +139,19 @@ def confirm(): #activates when the confirm button starts
                 access_year = int(access_date[:4])
                 access_month = int(access_date[5:7])
                 access_day = int(access_date[8:10])
-                if check_date(clicked5.get(), int(e_year3.get()), int(e_month3.get()), int(e_day3.get()), access_year, access_month, modify_day):
+                if check_date(clicked5.get(), int(e_year3.get()), int(e_month3.get()), int(e_day3.get()), access_year,
+                              access_month, modify_day):
                     continue
             delcount += 1
             try:
-                send2trash(item) #sends item to trash
+                send2trash(item)  # sends item to trash
             except Exception as error:
-                
+
                 print("error occured, deleting files instead of sending to trash: ")
                 os.remove(item)
-                
-        done = Toplevel() #creates a window to tell the user that files have been deleted
-        label_done = Label(done, text= str(delcount)+ " files have been moved to the trash")
+
+        done = Toplevel()  # creates a window to tell the user that files have been deleted
+        label_done = Label(done, text=str(delcount) + " files have been moved to the trash")
         button_done = Button(done, text="Ok", command=done.destroy)
         label_done.pack()
         button_done.pack()
@@ -151,53 +159,53 @@ def confirm(): #activates when the confirm button starts
     global label_error
     global file_chosen
     label_error.destroy()
-    #input validation
-    if file_chosen == False: #checks if the user has selected a file
+    # input validation
+    if file_chosen == False:  # checks if the user has selected a file
         label_error = Label(root, text="Please choose a file", fg="red", bg="systemTransparent")
         label_error.grid(row=7, column=0, columnspan=2, sticky="w")
         return
-    if var1.get() == 0 and var2.get() == 0 and var3.get() == 0 and var4.get() == 0 and var5.get() == 0: #checks if the user has selected at least one checkbox
+    if var1.get() == 0 and var2.get() == 0 and var3.get() == 0 and var4.get() == 0 and var5.get() == 0:  # checks if the user has selected at least one checkbox
         label_error = Label(root, text="Please choose at least one requirement", fg="red", bg="systemTransparent")
         label_error.grid(row=7, column=0, columnspan=3, sticky="w")
         return
-    if var1.get() == 1 and e_file_type.get() == "": #checks if the user has inputed their file type
+    if var1.get() == 1 and e_file_type.get() == "":  # checks if the user has inputed their file type
         label_error = Label(root, text="Please input a file type", fg="red", bg="systemTransparent")
         label_error.grid(row=7, column=0, columnspan=2, sticky="w")
         return
-    if var1.get() == 1 and e_file_type.get()[0] != ".": #checks if the file type is inputed in the correct format
+    if var1.get() == 1 and e_file_type.get()[0] != ".":  # checks if the file type is inputed in the correct format
         label_error = Label(root, text="File type has to  with a .", fg="red", bg="systemTransparent")
         label_error.grid(row=7, column=0, columnspan=2, sticky="w")
         return
-    if var2.get() == 1 and e_file_size.get() == "": #checks if the user has inputed their file size
+    if var2.get() == 1 and e_file_size.get() == "":  # checks if the user has inputed their file size
         label_error = Label(root, text="Please input a file size", fg="red", bg="systemTransparent")
         label_error.grid(row=7, column=0, columnspan=2, sticky="w")
         return
-    if var2.get() == 1 and e_file_size.get().isalpha(): #checks if the file size inputed is a number
+    if var2.get() == 1 and e_file_size.get().isalpha():  # checks if the file size inputed is a number
         label_error = Label(root, text="Invalid input for file size", fg="red", bg="systemTransparent")
         label_error.grid(row=7, column=0, columnspan=2, sticky="w")
         return
-    if var2.get() == 1: #check if the file size inputed is a positive number
-        if float(e_file_size.get()) < 0: 
+    if var2.get() == 1:  # check if the file size inputed is a positive number
+        if float(e_file_size.get()) < 0:
             label_error = Label(root, text="Invalid input for file size", fg="red", bg="systemTransparent")
             label_error.grid(row=7, column=0, columnspan=2, sticky="w")
             return
-    if var3.get() == 1: #check if the creation date is inputed in the correct format
-        if validate_date(e_year1.get(),e_month1.get(),e_day1.get()):
+    if var3.get() == 1:  # check if the creation date is inputed in the correct format
+        if validate_date(e_year1.get(), e_month1.get(), e_day1.get()):
             label_error = Label(root, text="Invalid input for creation date", fg="red", bg="systemTransparent")
             label_error.grid(row=7, column=0, columnspan=2, sticky="w")
             return
-    if var4.get() == 1: #check if the modification date is inputed in the correct format
-        if validate_date(e_year2.get(),e_month2.get(),e_day2.get()):
+    if var4.get() == 1:  # check if the modification date is inputed in the correct format
+        if validate_date(e_year2.get(), e_month2.get(), e_day2.get()):
             label_error = Label(root, text="Invalid input for modification date", fg="red", bg="systemTransparent")
             label_error.grid(row=7, column=0, columnspan=2, sticky="w")
             return
-    if var5.get() == 1: #check if the accessed date is inputed in the correct format
-        if validate_date(e_year3.get(),e_month3.get(),e_day3.get()):
+    if var5.get() == 1:  # check if the accessed date is inputed in the correct format
+        if validate_date(e_year3.get(), e_month3.get(), e_day3.get()):
             label_error = Label(root, text="Invalid input for accessed date", fg="red", bg="systemTransparent")
             label_error.grid(row=7, column=0, columnspan=2, sticky="w")
             return
 
-    window = Toplevel() #creates a window to confirm if the user wants to start deleting files
+    window = Toplevel()  # creates a window to confirm if the user wants to start deleting files
     label = Label(window, text="Are you sure you want to start deleting files?")
     button_yes = Button(window, text="Yes", command=start)
     button_no = Button(window, text="No", command=window.destroy)
@@ -205,7 +213,8 @@ def confirm(): #activates when the confirm button starts
     button_yes.grid(row=1, column=0)
     button_no.grid(row=1, column=1)
 
-def check(): #creates window to confirm if the user wants to quit the app
+
+def check():  # creates window to confirm if the user wants to quit the app
     window = Toplevel()
     label = Label(window, text="Are you sure you want to quit?")
     button_yes = Button(window, text="Yes", command=root.destroy)
@@ -214,7 +223,8 @@ def check(): #creates window to confirm if the user wants to quit the app
     button_yes.grid(row=1, column=0)
     button_no.grid(row=1, column=1)
 
-def folder(): #allows the user to select a file
+
+def folder():  # allows the user to select a file
     global path
     global file_chosen
     folder = filedialog.askdirectory(initialdir="/")
@@ -225,7 +235,8 @@ def folder(): #allows the user to select a file
         path = folder
         file_chosen = True
 
-def instructions(): #creates window with list of instructions
+
+def instructions():  # creates window with list of instructions
     window = Toplevel()
     label1 = Label(window, text="Instructions")
     label2 = Label(window, text="Start by choosing a folder which contents you would like to sort")
@@ -240,15 +251,17 @@ def instructions(): #creates window with list of instructions
     label5.pack()
     close.pack()
 
-def settings(): #activate when the user press the settings button
+
+def settings():  # activate when the user press the settings button
     global currSelect
-    currSelect = [background_colour,text_colour]
-    def theme(a, b): #changes the theme of the app
+    currSelect = [background_colour, text_colour]
+
+    def theme(a, b):  # changes the theme of the app
         global currSelect
-        currSelect = [a,b]
-        
+        currSelect = [a, b]
+
         root.config(bg=a)
-        
+
         label_folder_chosen.config(bg=a, fg=b)
         button_folder.config(highlightbackground=a)
 
@@ -308,27 +321,28 @@ def settings(): #activate when the user press the settings button
         except:
             print('error saving data')
         window.destroy()
-    
-    window = Toplevel() #creates a menu that allows the user to change the theme of the app
-    button_theme1 = Button(window, text="White", command= lambda: theme("white", "black"))
+
+    window = Toplevel()  # creates a menu that allows the user to change the theme of the app
+    button_theme1 = Button(window, text="White", command=lambda: theme("white", "black"))
     button_theme1.config(width=12)
-    button_theme2 = Button(window, text="Black", command= lambda: theme("black", "white"))
+    button_theme2 = Button(window, text="Black", command=lambda: theme("black", "white"))
     button_theme2.config(width=12)
-    button_theme3 = Button(window, text="Grey", command= lambda: theme("grey", "white"))
+    button_theme3 = Button(window, text="Grey", command=lambda: theme("grey", "white"))
     button_theme3.config(width=12)
     button_save = Button(window, text="Save", command=save)
     button_save.config(width=12)
     label_theme = Label(window, text="Choose a theme")
     label_theme.grid(row=0, column=0)
-    button_theme1.grid(row=1, column= 0)
-    button_theme2.grid(row=1, column= 1)
-    button_theme3.grid(row=1, column= 2)
+    button_theme1.grid(row=1, column=0)
+    button_theme2.grid(row=1, column=1)
+    button_theme3.grid(row=1, column=2)
     button_save.grid(row=2, column=0)
+
 
 chosen = StringVar()
 chosen.set("Choose file")
 
-#creating necessary labels
+# creating necessary labels
 label_file_type = Label(root, text="File type", bg=background_colour, fg=text_colour)
 label_file_size = Label(root, text="File size", bg=background_colour, fg=text_colour)
 label_file_creation = Label(root, text="Creation date", bg=background_colour, fg=text_colour)
@@ -343,14 +357,14 @@ label_dash4 = Label(root, text="-", bg=background_colour, fg=text_colour)
 label_dash5 = Label(root, text="-", bg=background_colour, fg=text_colour)
 label_dash6 = Label(root, text="-", bg=background_colour, fg=text_colour)
 
-#creating necessary buttons
-button_quit = Button(root, text="Quit", command=check, width=7 , highlightbackground=background_colour)
+# creating necessary buttons
+button_quit = Button(root, text="Quit", command=check, width=7, highlightbackground=background_colour)
 button_confirm = Button(root, text="Confirm", command=confirm, width=9, highlightbackground=background_colour)
 button_folder = Button(root, textvariable=chosen, command=folder, width=15, highlightbackground=background_colour)
 button_help = Button(root, text="Help", command=instructions, width=7, highlightbackground=background_colour)
 button_settings = Button(root, text="Settings", command=settings, width=12, highlightbackground=background_colour)
 
-#creating necessary entries
+# creating necessary entries
 e_file_type = Entry(root, width=9, highlightthickness=1)
 e_file_type.config(highlightbackground=background_colour, bg=background_colour, fg=text_colour)
 e_file_size = Entry(root, width=9, highlightthickness=1)
@@ -386,7 +400,7 @@ e_year3 = Entry(root, width=4, justify="center", highlightthickness=1)
 e_year3.insert(0, "yyyy")
 e_year3.config(bg=background_colour, fg=text_colour, highlightbackground=background_colour)
 
-#creating necessary variables for the option menus
+# creating necessary variables for the option menus
 sizes = ["KB", "MB", "GB", "TB"]
 
 clicked1 = StringVar()
@@ -402,7 +416,7 @@ clicked5.set("is")
 clicked6 = StringVar()
 clicked6.set("Before")
 
-#creating necessary option menus
+# creating necessary option menus
 size_menu = OptionMenu(root, clicked1, *sizes)
 size_menu.config(width=4, bg=background_colour)
 menu = OptionMenu(root, clicked2, "Greater than", "Less than", "Equal to")
@@ -416,35 +430,35 @@ type_menu.config(width=9, bg=background_colour)
 timing_menu3 = OptionMenu(root, clicked6, "Before", "After", "On")
 timing_menu3.config(width=9, bg=background_colour)
 
-var1 = IntVar() #creating integer variables which is used for the checkboxes
+var1 = IntVar()  # creating integer variables which is used for the checkboxes
 var2 = IntVar()
 var3 = IntVar()
 var4 = IntVar()
 var5 = IntVar()
 
-#creating necessary checkboxes
-c1 = Checkbutton(root, variable=var1, bg=background_colour) #creating checkbox variables
+# creating necessary checkboxes
+c1 = Checkbutton(root, variable=var1, bg=background_colour)  # creating checkbox variables
 c2 = Checkbutton(root, variable=var2, bg=background_colour)
 c3 = Checkbutton(root, variable=var3, bg=background_colour)
 c4 = Checkbutton(root, variable=var4, bg=background_colour)
 c5 = Checkbutton(root, variable=var5, bg=background_colour)
 
-label_folder_chosen.grid(row=0, column=0) #adding items for the first row of the screen
-button_folder.grid(row=0, column=1, columnspan=2) 
+label_folder_chosen.grid(row=0, column=0)  # adding items for the first row of the screen
+button_folder.grid(row=0, column=1, columnspan=2)
 
-c1.grid(row=1, column=0) #adding items for the second row of the screen
-label_file_type.grid(row=1, column=1, sticky="w", columnspan=2) 
-type_menu.grid(row=1, column=3, sticky="w") 
-e_file_type.grid(row=1, column=4, columnspan=3) 
+c1.grid(row=1, column=0)  # adding items for the second row of the screen
+label_file_type.grid(row=1, column=1, sticky="w", columnspan=2)
+type_menu.grid(row=1, column=3, sticky="w")
+e_file_type.grid(row=1, column=4, columnspan=3)
 
-c2.grid(row=2, column=0) #adding items for the third row of the screen
-label_file_size.grid(row=2, column=1, sticky="w", columnspan=2) 
-menu.grid(row=2, column=3, sticky="w") 
-e_file_size.grid(row=2, column=4, columnspan=3) 
-size_menu.grid(row=2, column=7, columnspan=2, sticky="w") 
+c2.grid(row=2, column=0)  # adding items for the third row of the screen
+label_file_size.grid(row=2, column=1, sticky="w", columnspan=2)
+menu.grid(row=2, column=3, sticky="w")
+e_file_size.grid(row=2, column=4, columnspan=3)
+size_menu.grid(row=2, column=7, columnspan=2, sticky="w")
 
-c3.grid(row=3, column=0) #adding items for the fourth row of the screen
-label_file_creation.grid(row=3, column=1, sticky="w", columnspan=2) 
+c3.grid(row=3, column=0)  # adding items for the fourth row of the screen
+label_file_creation.grid(row=3, column=1, sticky="w", columnspan=2)
 timing_menu1.grid(row=3, column=3, sticky="w")
 e_day1.grid(row=3, column=4, sticky="e")
 label_dash1.grid(row=3, column=5)
@@ -452,7 +466,7 @@ e_month1.grid(row=3, column=6, sticky="w")
 label_dash2.grid(row=3, column=7)
 e_year1.grid(row=3, column=8, sticky="w")
 
-c4.grid(row=4, column=0) #adding items for the fifth row of the screen
+c4.grid(row=4, column=0)  # adding items for the fifth row of the screen
 label_file_modification.grid(row=4, column=1, sticky="w", columnspan=2)
 timing_menu2.grid(row=4, column=3, sticky="w")
 e_day2.grid(row=4, column=4, sticky="e")
@@ -461,7 +475,7 @@ e_month2.grid(row=4, column=6, sticky="w")
 label_dash4.grid(row=4, column=7)
 e_year2.grid(row=4, column=8, sticky="w")
 
-c5.grid(row=5, column=0) #adding items for the sixth row of the screen
+c5.grid(row=5, column=0)  # adding items for the sixth row of the screen
 label_file_accessed.grid(row=5, column=1, sticky="w", columnspan=2)
 timing_menu3.grid(row=5, column=3, sticky="w")
 e_day3.grid(row=5, column=4, sticky="e")
@@ -470,7 +484,7 @@ e_month3.grid(row=5, column=6, sticky="w")
 label_dash6.grid(row=5, column=7)
 e_year3.grid(row=5, column=8, sticky="w")
 
-button_confirm.grid(row=6, column=0) #adding items for the seventh row of the screen
+button_confirm.grid(row=6, column=0)  # adding items for the seventh row of the screen
 button_quit.grid(row=6, column=1)
 button_help.grid(row=6, column=2)
 button_settings.grid(row=6, column=3, sticky="w")
