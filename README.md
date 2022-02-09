@@ -6,6 +6,7 @@ Instructions can be found by clicking the "help" button in the menu.
 
 # Additional info:
 File manager.py is the main program file to run.
+
 test.py is used to create dummy files with different properties to test the code.
 
 # Libraries used: 
