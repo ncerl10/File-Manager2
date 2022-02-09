@@ -48,15 +48,15 @@ dataLabel = ['themeID','deleteType']
 def validate_date(y,m,d): #year, month, day
     common_year = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
     leap_year = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-    if d.isdigit() and m.isdigit() and y.isdigit():
+    if d.isdigit() and m.isdigit() and y.isdigit(): #check if parameters are numbers
         dINT, mINT, yINT = int(d), int(m), int(y)
-        if yINT % 4 == 0:
-            if 0 < mINT < 13:
-                if 0 < dINT <= leap_year[mINT - 1]:
+
+        if 0 < mINT < 13: #check if month is valid
+            if yINT % 4 == 0: #check for leap year
+                if 0 < dINT <= leap_year[mINT -1]: #check if day is valid (for leap year)
                     return False
-        else:
-            if 0 < mINT < 13:
-                if 0 < dINT <= common_year[mINT - 1]:
+            else:
+                if 0 < dINT <= common_year[mINT -1]: #check if day is valid (non-leap years)
                     return False
     return True
 
