@@ -1,29 +1,33 @@
+#importing necessary libraries and modules
 from tkinter import *
 from datetime import datetime
 from tkinter import filedialog
 import os
 from pathlib import Path
+
+#check if send2trash is working for the user, but avoids crashes
 try:
     from send2trash import send2trash
 except Exception as e:
     print(e)
 
-#importing necessary libraries and modules
+#load data
 def loadOptions():
     data = []
     dataReturn = []
     with open('options.txt') as f:
-        data = f.readlines()
-    for a in data: #filters through all the strings, finds a number (which is assumed to be the value associated with the data line) and appends it
+        data = f.readlines() #every line of the options.txt is now stored as a indivudal value in the list, in the following format: 'value\n'
+    for a in data:
         dataReturn.append(a[:-1])
-    return dataReturn #returns only the value of each line of option in a list, in the following format: theme, deleteType 
+    return dataReturn
 
 def saveOptions(d): #the parameter d is a list in the same format as dataReturn
     with open('options.txt', "w") as f:
-        for x in d:
-          f.write(x+'\n')
+        for x in d: #iterates through d and overrides the exisiting values with the new ones in a new line
+          f.write(x+'\n') #creates a new line
 background_colour = 'grey'
 text_colour = 'white'
+#for some reason, options.txt can't be opened by python for everyone. We need to load to default
 try:
     background_colour = loadOptions()[0]
     text_colour = loadOptions()[1]
@@ -41,7 +45,7 @@ root.update_idletasks()
 path = ""
 file_chosen = False
 label_error = Label(root)
-dataLabel = ['themeID','deleteType'] 
+
 
 
 
@@ -59,8 +63,8 @@ def validate_date(y,m,d): #year, month, day
                 if 0 < dINT <= common_year[mINT -1]: #check if day is valid (non-leap years)
                     return False
     return True
-
-def check_date(v, y, m, d, ny, nm, nd): #checks if the date fits the criteria
+#checks if the file date fits the criteria of the parameter date
+def check_date(v, y, m, d, ny, nm, nd):
     print(y, ny)
     print(m, nm)
     print(d, nd)
@@ -89,6 +93,8 @@ def confirm(): #activates when the confirm button starts
         delcount = 0
         p = Path(path)
         count = 0
+
+        #look through every file in the folder, and check what parameters are selected. Then, compare the file properties to the selected parameters and see if they match
         for item in p.glob("**/*"):
             count += 1
             if var1.get() == 1:
