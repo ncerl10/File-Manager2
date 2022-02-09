@@ -24,6 +24,7 @@ def saveOptions(d): #the parameter d is a list in the same format as dataReturn
           f.write(x+'\n')
 background_colour = 'grey'
 text_colour = 'white'
+
 try:
     background_colour = loadOptions()[0]
     text_colour = loadOptions()[1]
@@ -135,10 +136,15 @@ def confirm(): #activates when the confirm button starts
                 
                 print("error occured, deleting files instead of sending to trash: ")
                 os.remove(item)
-                
+        try:
+            background_colour = loadOptions()[0]
+            text_colour = loadOptions()[1]
+        except:
+            pass    
         done = Toplevel() #creates a window to tell the user that files have been deleted
-        label_done = Label(done, text= str(delcount)+ " files have been moved to the trash")
-        button_done = Button(done, text="Ok", command=done.destroy)
+        done.config(bg=background_colour)
+        label_done = Label(done, text= str(delcount)+ " files have been moved to the trash", bg=background_colour, fg=text_colour)
+        button_done = Button(done, text="Ok", highlightbackground=background_colour, command=done.destroy)
         label_done.pack()
         button_done.pack()
 
@@ -191,19 +197,31 @@ def confirm(): #activates when the confirm button starts
             label_error.grid(row=7, column=0, columnspan=2, sticky="w")
             return
 
+    try:
+        background_colour = loadOptions()[0]
+        text_colour = loadOptions()[1]
+    except:
+        pass
     window = Toplevel() #creates a window to confirm if the user wants to start deleting files
-    label = Label(window, text="Are you sure you want to start deleting files?")
-    button_yes = Button(window, text="Yes", command=start)
-    button_no = Button(window, text="No", command=window.destroy)
+    window.config(bg=background_colour)
+    label = Label(window, text="Are you sure you want to start deleting files?", bg=background_colour, fg=text_colour)
+    button_yes = Button(window, text="Yes", highlightbackground=background_colour, command=start)
+    button_no = Button(window, text="No", highlightbackground=background_colour, command=window.destroy)
     label.grid(row=0, column=0, columnspan=2)
     button_yes.grid(row=1, column=0)
     button_no.grid(row=1, column=1)
 
 def check(): #creates window to confirm if the user wants to quit the app
+    try:
+        background_colour = loadOptions()[0]
+        text_colour = loadOptions()[1]
+    except:
+        pass
     window = Toplevel()
-    label = Label(window, text="Are you sure you want to quit?")
-    button_yes = Button(window, text="Yes", command=root.destroy)
-    button_no = Button(window, text="No", command=window.destroy)
+    window.config(bg=background_colour)
+    label = Label(window, text="Are you sure you want to quit?", bg=background_colour, fg=text_colour)
+    button_yes = Button(window, text="Yes", command=root.destroy, highlightbackground=background_colour)
+    button_no = Button(window, text="No", command=window.destroy, highlightbackground=background_colour)
     label.grid(row=0, column=0, columnspan=2)
     button_yes.grid(row=1, column=0)
     button_no.grid(row=1, column=1)
@@ -220,13 +238,19 @@ def folder(): #allows the user to select a file
         file_chosen = True
 
 def instructions(): #creates window with list of instructions
+    try:
+        background_colour = loadOptions()[0]
+        text_colour = loadOptions()[1]
+    except:
+        pass
     window = Toplevel()
-    label1 = Label(window, text="Instructions")
-    label2 = Label(window, text="Start by choosing a folder which contents you would like to sort")
-    label3 = Label(window, text="Next, select which parameters you would like to use")
-    label4 = Label(window, text="Finally, fill up the necessary information then press confirm to start sorting")
-    label5 = Label(window, text="The files will then be moved into your bin")
-    close = Button(window, text="Close", command=window.destroy)
+    window.config(bg=background_colour)
+    label1 = Label(window, text="Instructions", bg=background_colour, fg=text_colour)
+    label2 = Label(window, text="Start by choosing a folder which contents you would like to sort", bg=background_colour, fg=text_colour)
+    label3 = Label(window, text="Next, select which parameters you would like to use", bg=background_colour, fg=text_colour)
+    label4 = Label(window, text="Finally, fill up the necessary information then press confirm to start sorting", bg=background_colour, fg=text_colour)
+    label5 = Label(window, text="The files will then be moved into your bin", bg=background_colour, fg=text_colour)
+    close = Button(window, text="Close", command=window.destroy, highlightbackground=background_colour)
     label1.pack()
     label2.pack()
     label3.pack()
@@ -235,9 +259,7 @@ def instructions(): #creates window with list of instructions
     close.pack()
 
 def settings(): #activate when the user press the settings button
-    global currSelect
-    currSelect = [background_colour,text_colour]
-    def theme(a, b): #changes the theme of the app
+    def theme(a, b, quit): #changes the theme of the app
         global currSelect
         currSelect = [a,b]
         
@@ -295,29 +317,41 @@ def settings(): #activate when the user press the settings button
         button_theme2.config(highlightbackground=a)
         button_theme3.config(highlightbackground=a)
         button_save.config(highlightbackground=a)
+        button_cancel.config(highlightbackground=a)
+
+        if quit:
+            window.destroy()
 
     def save():
         try:
             saveOptions(currSelect)
         except:
-            print('error saving data')
+            pass
         window.destroy()
-    
+    try:
+        background_colour = loadOptions()[0]
+        text_colour = loadOptions()[1]
+    except:
+        pass
     window = Toplevel() #creates a menu that allows the user to change the theme of the app
-    button_theme1 = Button(window, text="White", command= lambda: theme("white", "black"))
+    window.config(bg=background_colour)
+    button_theme1 = Button(window, text="White", command= lambda: theme("white", "black", False), highlightbackground=background_colour)
     button_theme1.config(width=12)
-    button_theme2 = Button(window, text="Black", command= lambda: theme("black", "white"))
+    button_theme2 = Button(window, text="Black", command= lambda: theme("black", "white", False), highlightbackground=background_colour)
     button_theme2.config(width=12)
-    button_theme3 = Button(window, text="Grey", command= lambda: theme("grey", "white"))
+    button_theme3 = Button(window, text="Grey", command= lambda: theme("grey", "white", False), highlightbackground=background_colour)
     button_theme3.config(width=12)
-    button_save = Button(window, text="Save", command=save)
+    button_save = Button(window, text="Save", command=save, highlightbackground=background_colour)
     button_save.config(width=12)
-    label_theme = Label(window, text="Choose a theme")
+    button_cancel = Button(window, text="Cancel", command= lambda: theme(background_colour, text_colour, True), highlightbackground=background_colour)
+    button_cancel.config(width=12)
+    label_theme = Label(window, text="Choose a theme", bg=background_colour, fg=text_colour)
     label_theme.grid(row=0, column=0)
     button_theme1.grid(row=1, column= 0)
     button_theme2.grid(row=1, column= 1)
     button_theme3.grid(row=1, column= 2)
     button_save.grid(row=2, column=0)
+    button_cancel.grid(row=2, column=1)
 
 chosen = StringVar()
 chosen.set("Choose file")
