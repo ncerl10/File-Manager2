@@ -14,11 +14,11 @@ def createFileWithTime(path, size=1,name=f'RAND{str(random.randint(0, 10000000))
         f.write("A" * size * 1000)
     a, m = os.stat(path + "/" + name + "." + ext).st_atime, os.stat(path + "/" + name + "." + ext).st_mtime
     if atime and mtime:
-        os.utime(path + "/" + name + "." + ext, (atime, mtime))
+        os.utime(path + "/" + name + "." + ext, (atime, mtime)) # Change access time and modified time
     if atime:
-        os.utime(path + "/" + name + "." + ext, (atime, m))
+        os.utime(path + "/" + name + "." + ext, (atime, m)) # Change only access time
     if mtime:
-        os.utime(path + "/" + name + "." + ext, (a, mtime))
+        os.utime(path + "/" + name + "." + ext, (a, mtime)) # Change only modified time
 
 def createFileWithExt(path, size=1, ext="txt",name=f'RAND{str(random.randint(0, 10000000))}' ): # Creates a file with default size 1kb, and with a specified extension
     with open(path + "/" + f'RAND{str(random.randint(0, 10000000))}' + "." + ext, "w") as f:
@@ -29,7 +29,7 @@ def randomCreate(path): # The function to randomly create files by size, time, o
     if e == 0:
         createFile(path, random.randint(1, 10))
     elif e == 1:
-        createFileWithTime(path, size=random.randint(1, 10), atime=int(time.time()) - random.randint(10000, 1000000), mtime=int(time.time()) - random.randint(10000, 1000000))
+        createFileWithTime(path, size=random.randint(1, 10), atime=int(time.time()) - random.randint(100000, 100000000), mtime=int(time.time()) - random.randint(100000, 100000000))
     else:
         createFileWithExt(path, size=random.randint(1, 10), ext=random.choice(["txt", 'jpg', 'png', 'mp4', 'm4a']))
 
