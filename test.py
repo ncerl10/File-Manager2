@@ -1,15 +1,15 @@
 import os
 import random
 import time
-def createFolder(name):
+def createFolder(name): # Helper function to create a new folder
     os.mkdir(f'test/{name}')
 
-def createFile(path, size, name=f'RAND{str(random.randint(0, 10000000))}', ext="txt"): # In kb
+def createFile(path, size, name=f'RAND{str(random.randint(0, 10000000))}', ext="txt"): # Create a new file with a certain size in kilobytes
     print(path + "/" + name + "." + ext)
     with open(path + "/" + 'RAND' + str(random.randint(0, 10000000)) + "." + ext, "w") as f:
         f.write("A" * size * 1000)
 
-def createFileWithTime(path, size=1,name=f'RAND{str(random.randint(0, 10000000))}', atime=None, mtime=None, ext="txt"):
+def createFileWithTime(path, size=1,name=f'RAND{str(random.randint(0, 10000000))}', atime=None, mtime=None, ext="txt"): # Create file with specifed access time (atime) or modifed time (mtime)
     name = f'RAND{str(random.randint(0, 10000000))}' 
     with open(path + "/" + name + "." + ext, "w") as f:
         f.write("A" * size * 1000)
@@ -21,11 +21,11 @@ def createFileWithTime(path, size=1,name=f'RAND{str(random.randint(0, 10000000))
     if mtime:
         os.utime(path + "/" + name + "." + ext, (a, mtime))
 
-def createFileWithExt(path, size=1, ext="txt",name=f'RAND{str(random.randint(0, 10000000))}' ):
+def createFileWithExt(path, size=1, ext="txt",name=f'RAND{str(random.randint(0, 10000000))}' ): # Creates a file with default size 1kb, and with a specified extension
     with open(path + "/" + f'RAND{str(random.randint(0, 10000000))}' + "." + ext, "w") as f:
         f.write("A" * size * 1000)
 
-def randomCreate(path):
+def randomCreate(path): # The function to randomly create files by size, time, or extension
     e = random.randint(0, 3)
     if e == 0:
         createFile(path, random.randint(1, 10))
@@ -34,10 +34,10 @@ def randomCreate(path):
     else:
         createFileWithExt(path, size=random.randint(1, 10), ext=random.choice(["txt", 'jpg', 'png', 'mp4', 'm4a']))
 
-def massCreate(testcase, amount=100, atimes=False, mtimes=False, size=False, ext=False):
+def massCreate(testcase, amount=100, atimes=False, mtimes=False, size=False, ext=False): # Function to mass create files randomly
     createFolder(testcase)
     for i in range(amount):
         randomCreate("test/" + testcase)
 
-massCreate("test"+str(random.randint(1, 6969)), amount=100)
+massCreate("test"+str(random.randint(1, 5000)), amount=100) # Mass creates 100 files, inside a folder
 
