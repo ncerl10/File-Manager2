@@ -65,23 +65,23 @@ def validate_date(y, m, d):  # year, month, day
 # checks if the file date fits the criteria of the parameter date
 def check_date(v, y, m, d, ny, nm, nd):
     if v == "Before":
-        if y < ny:
-            return True
-        if m < nm:
-            return True
-        if d < nd:
-            return True
+        if ny < y:
+            return False
+        if ny == y and nm < m:
+            return False
+        if ny == y and nm == m and nd < d:
+            return False
     if v == "After":
-        if y > ny:
-            return True
-        if m > nm:
-            return True
-        if d > nd:
-            return True
+        if ny > y:
+            return False
+        if ny == y and nm > m:
+            return False
+        if ny == y and nm == m and nd > d:
+            return False
     if v == "On":
-        if y != ny or m != nm or d != nd:
-            return True
-    return False
+        if y == ny and m == nm and d == nd:
+            return False
+    return True
 
 
 def confirm():  # activates when the confirm button is pressed
@@ -93,9 +93,6 @@ def confirm():  # activates when the confirm button is pressed
 
         # look through every file in the folder, and check what parameters are selected. Then, compare the file properties to the selected parameters and see if they match
         for item in p.glob("**/*"):
-            print(datetime.fromtimestamp(item.stat().st_ctime))
-            print(datetime.fromtimestamp(item.stat().st_mtime))
-            print(datetime.fromtimestamp(item.stat().st_atime))
             count += 1
             if var1.get() == 1:
                 if clicked5.get() == "is" and item.suffix != file_type:
@@ -111,12 +108,11 @@ def confirm():  # activates when the confirm button is pressed
                 elif clicked2.get() == "Equal to" and item.stat().st_size != size:
                     continue
             if var3.get() == 1:
-                create_date = datetime.fromtimestamp(item.stat().st_ctime)
+                create_date = datetime.fromtimestamp(item.stat().st_birthtime)
                 create_date = str(create_date)
                 create_year = int(create_date[:4])
                 create_month = int(create_date[5:7])
                 create_day = int(create_date[8:10])
-                print(create_date)
                 if check_date(clicked3.get(), int(e_year1.get()), int(e_month1.get()), int(e_day1.get()), create_year,
                               create_month, create_day):
                     continue
