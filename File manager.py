@@ -37,7 +37,7 @@ except: # if options.txt can't be opened by python, the default theme will be lo
 
 root = Tk()  # creating the screen
 root.title("File manager")  # editing the tile of the screen
-root.geometry("600x200")  # changing the dimension of the screen
+root.geometry("650x200")  # changing the dimension of the screen
 root.config(bg=background_colour) # sets the background colour
 root.update_idletasks() # reloads the page
 
@@ -391,7 +391,7 @@ button_quit = Button(root, text="Quit", command=check, width=7, highlightbackgro
 button_confirm = Button(root, text="Confirm", command=confirm, width=9, highlightbackground=background_colour)
 button_folder = Button(root, textvariable=chosen, command=folder, width=15, highlightbackground=background_colour)
 button_help = Button(root, text="Help", command=instructions, width=7, highlightbackground=background_colour)
-button_settings = Button(root, text="Settings", command=settings, width=12, highlightbackground=background_colour)
+button_settings = Button(root, text="Themes", command=settings, width=12, highlightbackground=background_colour)
 
 # creating necessary entries
 e_file_type = Entry(root, width=9, highlightthickness=1)
