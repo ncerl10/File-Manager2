@@ -5,13 +5,14 @@ from tkinter import filedialog
 import os
 from pathlib import Path
 
+# Brydon
 # check if send2trash is working for the user, but avoids crashes
 try:
     from send2trash import send2trash
 except Exception as e:
     print(e)
 
-
+# Brydon
 # load data
 def loadOptions():
     data = []
@@ -22,12 +23,13 @@ def loadOptions():
         dataReturn.append(a[:-1])
     return dataReturn
 
-
+# Brydon
 def saveOptions(d):  # the parameter d is a list in the format [background_colour, text_colour]
     with open('options.txt', "w") as f:
         for x in d:  # iterates through d and overrides the exisiting values with the new ones in a new line
             f.write(x + '\n')  # creates a new line
 
+# Brydon
 try: # tries getting the saved background and text colour
     background_colour = loadOptions()[0]
     text_colour = loadOptions()[1]
@@ -35,6 +37,7 @@ except: # if options.txt can't be opened by python, the default theme will be lo
     background_colour = 'grey'
     text_colour = 'white'
 
+# Noah
 root = Tk()  # creating the screen
 root.title("File manager")  # editing the tile of the screen
 root.geometry("650x200")  # changing the dimension of the screen
@@ -45,7 +48,7 @@ path = ""
 file_chosen = False
 label_error = Label(root)
 
-
+# Brydon
 def validate_date(y, m, d):  # year, month, day
     common_year = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
     leap_year = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
@@ -61,7 +64,7 @@ def validate_date(y, m, d):  # year, month, day
                     return False
     return True
 
-
+# Noah
 # checks if the file date fits the criteria of the parameter date
 def check_date(v, y, m, d, ny, nm, nd):
     if v == "Before":
@@ -83,7 +86,7 @@ def check_date(v, y, m, d, ny, nm, nd):
             return False
     return True
 
-
+# Noah
 def confirm():  # activates when the confirm button is pressed
     def start():
         window.destroy()
@@ -91,6 +94,7 @@ def confirm():  # activates when the confirm button is pressed
         p = Path(path)
         count = 0
 
+        # Noah
         # look through every file in the folder, and check what parameters are selected. Then, compare the file properties to the selected parameters and see if they match
         for item in p.glob("**/*"):
             count += 1
@@ -153,6 +157,7 @@ def confirm():  # activates when the confirm button is pressed
         label_done.pack()
         button_done.pack()
 
+    # Noah
     global label_error
     global file_chosen
     label_error.destroy()
@@ -204,6 +209,7 @@ def confirm():  # activates when the confirm button is pressed
             label_error.grid(row=7, column=0, columnspan=2, sticky="w")
             return
 
+    # Noah
     try:
         background_colour = loadOptions()[0]
         text_colour = loadOptions()[1]
@@ -219,6 +225,7 @@ def confirm():  # activates when the confirm button is pressed
     button_yes.grid(row=1, column=0)
     button_no.grid(row=1, column=1)
 
+# Noah
 def check(): #creates window to confirm if the user wants to quit the app
     try:
         background_colour = loadOptions()[0]
@@ -235,7 +242,7 @@ def check(): #creates window to confirm if the user wants to quit the app
     button_yes.grid(row=1, column=0)
     button_no.grid(row=1, column=1)
 
-
+# Noah
 def folder():  # allows the user to select a file
     global path
     global file_chosen
@@ -247,6 +254,7 @@ def folder():  # allows the user to select a file
         path = folder
         file_chosen = True
 
+# Noah
 def instructions(): # creates window with list of instructions
     try:
         background_colour = loadOptions()[0]
@@ -271,7 +279,8 @@ def instructions(): # creates window with list of instructions
     label6.pack()
     close.pack()
 
-def settings(): # activate when the user press the settings button
+# Noah
+def settings(): # activate when the user press the themes button
     def theme(a, b, quit): # changes the theme of the app
         global currSelect
         currSelect = [a, b]
@@ -347,6 +356,7 @@ def settings(): # activate when the user press the settings button
     except:
         background_colour = 'grey'
         text_colour = 'white'
+
     window = Toplevel() # creates a menu that allows the user to change the theme of the app
     window.config(bg=background_colour)
     button_theme1 = Button(window, text="White", command= lambda: theme("white", "black", False), highlightbackground=background_colour)
@@ -371,6 +381,7 @@ def settings(): # activate when the user press the settings button
 chosen = StringVar()
 chosen.set("Choose file")
 
+# Noah
 # creating necessary labels
 label_file_type = Label(root, text="File type", bg=background_colour, fg=text_colour)
 label_file_size = Label(root, text="File size", bg=background_colour, fg=text_colour)
