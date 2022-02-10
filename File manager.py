@@ -23,29 +23,23 @@ def loadOptions():
     return dataReturn
 
 
-def saveOptions(d):  # the parameter d is a list in the same format as dataReturn
+def saveOptions(d):  # the parameter d is a list in the format [background_colour, text_colour]
     with open('options.txt', "w") as f:
         for x in d:  # iterates through d and overrides the exisiting values with the new ones in a new line
             f.write(x + '\n')  # creates a new line
 
-
-background_colour = 'grey'
-text_colour = 'white'
-# for some reason, options.txt can't be opened by python for everyone. We need to load to default
-
-try:
+try: # tries getting the saved background and text colour
     background_colour = loadOptions()[0]
     text_colour = loadOptions()[1]
-except:
-    pass
-
-print(background_colour, text_colour)
+except: # if options.txt can't be opened by python, the default theme will be loaded
+    background_colour = 'grey'
+    text_colour = 'white'
 
 root = Tk()  # creating the screen
 root.title("File manager")  # editing the tile of the screen
 root.geometry("600x200")  # changing the dimension of the screen
-root.config(bg=background_colour)
-root.update_idletasks()
+root.config(bg=background_colour) # sets the background colour
+root.update_idletasks() # reloads the page
 
 path = ""
 file_chosen = False
@@ -93,7 +87,7 @@ def check_date(v, y, m, d, ny, nm, nd):
     return False
 
 
-def confirm():  # activates when the confirm button starts
+def confirm():  # activates when the confirm button is pressed
     def start():
         window.destroy()
         delcount = 0
@@ -147,14 +141,14 @@ def confirm():  # activates when the confirm button starts
             try:
                 send2trash(item)  # sends item to trash
             except Exception as error:
-
                 print("error occured, deleting files instead of sending to trash: ")
                 os.remove(item)
         try:
             background_colour = loadOptions()[0]
             text_colour = loadOptions()[1]
         except:
-            pass    
+            background_colour = 'grey'
+            text_colour = 'white'
         done = Toplevel() #creates a window to tell the user that files have been deleted
         done.config(bg=background_colour)
         label_done = Label(done, text= str(delcount)+ " files have been moved to the trash", bg=background_colour, fg=text_colour)
@@ -215,7 +209,8 @@ def confirm():  # activates when the confirm button starts
         background_colour = loadOptions()[0]
         text_colour = loadOptions()[1]
     except:
-        pass
+        background_colour = 'grey'
+        text_colour = 'white'
     window = Toplevel() #creates a window to confirm if the user wants to start deleting files
     window.config(bg=background_colour)
     label = Label(window, text="Are you sure you want to start deleting files?", bg=background_colour, fg=text_colour)
@@ -230,7 +225,8 @@ def check(): #creates window to confirm if the user wants to quit the app
         background_colour = loadOptions()[0]
         text_colour = loadOptions()[1]
     except:
-        pass
+        background_colour = 'grey'
+        text_colour = 'white'
     window = Toplevel()
     window.config(bg=background_colour)
     label = Label(window, text="Are you sure you want to quit?", bg=background_colour, fg=text_colour)
@@ -257,7 +253,8 @@ def instructions(): # creates window with list of instructions
         background_colour = loadOptions()[0]
         text_colour = loadOptions()[1]
     except:
-        pass
+        background_colour = 'grey'
+        text_colour = 'white'
     window = Toplevel()
     window.config(bg=background_colour)
     label1 = Label(window, text="Instructions", bg=background_colour, fg=text_colour)
@@ -347,7 +344,8 @@ def settings(): # activate when the user press the settings button
         background_colour = loadOptions()[0]
         text_colour = loadOptions()[1]
     except:
-        pass
+        background_colour = 'grey'
+        text_colour = 'white'
     window = Toplevel() # creates a menu that allows the user to change the theme of the app
     window.config(bg=background_colour)
     button_theme1 = Button(window, text="White", command= lambda: theme("white", "black", False), highlightbackground=background_colour)
