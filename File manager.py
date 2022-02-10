@@ -93,6 +93,9 @@ def confirm():  # activates when the confirm button is pressed
 
         # look through every file in the folder, and check what parameters are selected. Then, compare the file properties to the selected parameters and see if they match
         for item in p.glob("**/*"):
+            print(datetime.fromtimestamp(item.stat().st_ctime))
+            print(datetime.fromtimestamp(item.stat().st_mtime))
+            print(datetime.fromtimestamp(item.stat().st_atime))
             count += 1
             if var1.get() == 1:
                 if clicked5.get() == "is" and item.suffix != file_type:
