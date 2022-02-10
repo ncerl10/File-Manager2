@@ -5,7 +5,6 @@ def createFolder(name): # Helper function to create a new folder
     os.mkdir(f'test/{name}')
 
 def createFile(path, size, name=f'RAND{str(random.randint(0, 10000000))}', ext="txt"): # Create a new file with a certain size in kilobytes
-    print(path + "/" + name + "." + ext)
     with open(path + "/" + 'RAND' + str(random.randint(0, 10000000)) + "." + ext, "w") as f:
         f.write("A" * size * 1000)
 
@@ -38,6 +37,6 @@ def massCreate(testcase, amount=100, atimes=False, mtimes=False, size=False, ext
     createFolder(testcase)
     for i in range(amount):
         randomCreate("test/" + testcase)
-
-massCreate("test"+str(random.randint(1, 5000)), amount=100) # Mass creates 100 files, inside a folder
+no = int(input("Enter the amount of files to create: "))
+massCreate("test"+str(random.randint(1, 5000)), amount=no) # Mass creates 100 files, inside a folder
 
