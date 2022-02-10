@@ -23,28 +23,23 @@ def loadOptions():
     return dataReturn
 
 
-def saveOptions(d):  # the parameter d is a list in the same format as dataReturn
+def saveOptions(d):  # the parameter d is a list in the format [background_colour, text_colour]
     with open('options.txt', "w") as f:
         for x in d:  # iterates through d and overrides the exisiting values with the new ones in a new line
             f.write(x + '\n')  # creates a new line
 
-
-background_colour = 'grey'
-text_colour = 'white'
-# for some reason, options.txt can't be opened by python for everyone. We need to load to default
-try:
+try: # tries getting the saved background and text colour
     background_colour = loadOptions()[0]
     text_colour = loadOptions()[1]
-except:
-    pass
-
-print(background_colour, text_colour)
+except: # if options.txt can't be opened by python, the default theme will be loaded
+    background_colour = 'grey'
+    text_colour = 'white'
 
 root = Tk()  # creating the screen
 root.title("File manager")  # editing the tile of the screen
 root.geometry("600x200")  # changing the dimension of the screen
-root.config(bg=background_colour)
-root.update_idletasks()
+root.config(bg=background_colour) # sets the background colour
+root.update_idletasks() # reloads the page
 
 path = ""
 file_chosen = False
@@ -92,7 +87,7 @@ def check_date(v, y, m, d, ny, nm, nd):
     return False
 
 
-def confirm():  # activates when the confirm button starts
+def confirm():  # activates when the confirm button is pressed
     def start():
         window.destroy()
         delcount = 0
@@ -103,9 +98,9 @@ def confirm():  # activates when the confirm button starts
         for item in p.glob("**/*"):
             count += 1
             if var1.get() == 1:
-                if clicked5.get() == "is" and item.suffix != e_file_type.get():
+                if clicked5.get() == "is" and item.suffix != file_type:
                     continue
-                elif clicked5.get() == "is not" and item.suffix == e_file_type.get():
+                elif clicked5.get() == "is not" and item.suffix == file_type:
                     continue
             if var2.get() == 1:
                 size = float(e_file_size.get()) * 1000 ** (sizes.index(clicked1.get()) + 1)
@@ -140,19 +135,24 @@ def confirm():  # activates when the confirm button starts
                 access_month = int(access_date[5:7])
                 access_day = int(access_date[8:10])
                 if check_date(clicked5.get(), int(e_year3.get()), int(e_month3.get()), int(e_day3.get()), access_year,
-                              access_month, modify_day):
+                              access_month, access_day):
                     continue
             delcount += 1
             try:
                 send2trash(item)  # sends item to trash
             except Exception as error:
-
                 print("error occured, deleting files instead of sending to trash: ")
                 os.remove(item)
-
-        done = Toplevel()  # creates a window to tell the user that files have been deleted
-        label_done = Label(done, text=str(delcount) + " files have been moved to the trash")
-        button_done = Button(done, text="Ok", command=done.destroy)
+        try:
+            background_colour = loadOptions()[0]
+            text_colour = loadOptions()[1]
+        except:
+            background_colour = 'grey'
+            text_colour = 'white'
+        done = Toplevel() #creates a window to tell the user that files have been deleted
+        done.config(bg=background_colour)
+        label_done = Label(done, text= str(delcount)+ " files have been moved to the trash", bg=background_colour, fg=text_colour)
+        button_done = Button(done, text="Ok", highlightbackground=background_colour, command=done.destroy)
         label_done.pack()
         button_done.pack()
 
@@ -172,10 +172,12 @@ def confirm():  # activates when the confirm button starts
         label_error = Label(root, text="Please input a file type", fg="red", bg="systemTransparent")
         label_error.grid(row=7, column=0, columnspan=2, sticky="w")
         return
-    if var1.get() == 1 and e_file_type.get()[0] != ".":  # checks if the file type is inputed in the correct format
-        label_error = Label(root, text="File type has to  with a .", fg="red", bg="systemTransparent")
-        label_error.grid(row=7, column=0, columnspan=2, sticky="w")
-        return
+    if var1.get() == 1:
+        global file_type
+        if e_file_type.get()[0] != ".":  # adds a . to the start of the file type if it hasnt already been inputed
+            file_type = "." + e_file_type.get()
+        else:
+            file_type = e_file_type.get()
     if var2.get() == 1 and e_file_size.get() == "":  # checks if the user has inputed their file size
         label_error = Label(root, text="Please input a file size", fg="red", bg="systemTransparent")
         label_error.grid(row=7, column=0, columnspan=2, sticky="w")
@@ -205,20 +207,33 @@ def confirm():  # activates when the confirm button starts
             label_error.grid(row=7, column=0, columnspan=2, sticky="w")
             return
 
-    window = Toplevel()  # creates a window to confirm if the user wants to start deleting files
-    label = Label(window, text="Are you sure you want to start deleting files?")
-    button_yes = Button(window, text="Yes", command=start)
-    button_no = Button(window, text="No", command=window.destroy)
+    try:
+        background_colour = loadOptions()[0]
+        text_colour = loadOptions()[1]
+    except:
+        background_colour = 'grey'
+        text_colour = 'white'
+    window = Toplevel() #creates a window to confirm if the user wants to start deleting files
+    window.config(bg=background_colour)
+    label = Label(window, text="Are you sure you want to start deleting files?", bg=background_colour, fg=text_colour)
+    button_yes = Button(window, text="Yes", highlightbackground=background_colour, command=start)
+    button_no = Button(window, text="No", highlightbackground=background_colour, command=window.destroy)
     label.grid(row=0, column=0, columnspan=2)
     button_yes.grid(row=1, column=0)
     button_no.grid(row=1, column=1)
 
-
-def check():  # creates window to confirm if the user wants to quit the app
+def check(): #creates window to confirm if the user wants to quit the app
+    try:
+        background_colour = loadOptions()[0]
+        text_colour = loadOptions()[1]
+    except:
+        background_colour = 'grey'
+        text_colour = 'white'
     window = Toplevel()
-    label = Label(window, text="Are you sure you want to quit?")
-    button_yes = Button(window, text="Yes", command=root.destroy)
-    button_no = Button(window, text="No", command=window.destroy)
+    window.config(bg=background_colour)
+    label = Label(window, text="Are you sure you want to quit?", bg=background_colour, fg=text_colour)
+    button_yes = Button(window, text="Yes", command=root.destroy, highlightbackground=background_colour)
+    button_no = Button(window, text="No", command=window.destroy, highlightbackground=background_colour)
     label.grid(row=0, column=0, columnspan=2)
     button_yes.grid(row=1, column=0)
     button_no.grid(row=1, column=1)
@@ -235,15 +250,21 @@ def folder():  # allows the user to select a file
         path = folder
         file_chosen = True
 
-
-def instructions():  # creates window with list of instructions
+def instructions(): # creates window with list of instructions
+    try:
+        background_colour = loadOptions()[0]
+        text_colour = loadOptions()[1]
+    except:
+        background_colour = 'grey'
+        text_colour = 'white'
     window = Toplevel()
-    label1 = Label(window, text="Instructions")
-    label2 = Label(window, text="Start by choosing a folder which contents you would like to sort")
-    label3 = Label(window, text="Next, select which parameters you would like to use")
-    label4 = Label(window, text="Finally, fill up the necessary information then press confirm to start sorting")
-    label5 = Label(window, text="The files will then be moved into your bin")
-    close = Button(window, text="Close", command=window.destroy)
+    window.config(bg=background_colour)
+    label1 = Label(window, text="Instructions", bg=background_colour, fg=text_colour)
+    label2 = Label(window, text="Start by choosing a folder which contents you would like to sort", bg=background_colour, fg=text_colour)
+    label3 = Label(window, text="Next, select which parameters you would like to use", bg=background_colour, fg=text_colour)
+    label4 = Label(window, text="Finally, fill up the necessary information then press confirm to start sorting", bg=background_colour, fg=text_colour)
+    label5 = Label(window, text="The files will then be moved into your bin", bg=background_colour, fg=text_colour)
+    close = Button(window, text="Close", command=window.destroy, highlightbackground=background_colour)
     label1.pack()
     label2.pack()
     label3.pack()
@@ -251,12 +272,8 @@ def instructions():  # creates window with list of instructions
     label5.pack()
     close.pack()
 
-
-def settings():  # activate when the user press the settings button
-    global currSelect
-    currSelect = [background_colour, text_colour]
-
-    def theme(a, b):  # changes the theme of the app
+def settings(): # activate when the user press the settings button
+    def theme(a, b, quit): # changes the theme of the app
         global currSelect
         currSelect = [a, b]
 
@@ -314,29 +331,42 @@ def settings():  # activate when the user press the settings button
         button_theme2.config(highlightbackground=a)
         button_theme3.config(highlightbackground=a)
         button_save.config(highlightbackground=a)
+        button_cancel.config(highlightbackground=a)
+
+        if quit:
+            window.destroy()
 
     def save():
         try:
             saveOptions(currSelect)
         except:
-            print('error saving data')
+            pass
         window.destroy()
-
-    window = Toplevel()  # creates a menu that allows the user to change the theme of the app
-    button_theme1 = Button(window, text="White", command=lambda: theme("white", "black"))
+    try:
+        background_colour = loadOptions()[0]
+        text_colour = loadOptions()[1]
+    except:
+        background_colour = 'grey'
+        text_colour = 'white'
+    window = Toplevel() # creates a menu that allows the user to change the theme of the app
+    window.config(bg=background_colour)
+    button_theme1 = Button(window, text="White", command= lambda: theme("white", "black", False), highlightbackground=background_colour)
     button_theme1.config(width=12)
-    button_theme2 = Button(window, text="Black", command=lambda: theme("black", "white"))
+    button_theme2 = Button(window, text="Black", command= lambda: theme("black", "white", False), highlightbackground=background_colour)
     button_theme2.config(width=12)
-    button_theme3 = Button(window, text="Grey", command=lambda: theme("grey", "white"))
+    button_theme3 = Button(window, text="Grey", command= lambda: theme("grey", "white", False), highlightbackground=background_colour)
     button_theme3.config(width=12)
-    button_save = Button(window, text="Save", command=save)
+    button_save = Button(window, text="Save", command=save, highlightbackground=background_colour)
     button_save.config(width=12)
-    label_theme = Label(window, text="Choose a theme")
+    button_cancel = Button(window, text="Cancel", command= lambda: theme(background_colour, text_colour, True), highlightbackground=background_colour)
+    button_cancel.config(width=12)
+    label_theme = Label(window, text="Choose a theme", bg=background_colour, fg=text_colour)
     label_theme.grid(row=0, column=0)
     button_theme1.grid(row=1, column=0)
     button_theme2.grid(row=1, column=1)
     button_theme3.grid(row=1, column=2)
     button_save.grid(row=2, column=0)
+    button_cancel.grid(row=2, column=1)
 
 
 chosen = StringVar()
@@ -437,7 +467,7 @@ var4 = IntVar()
 var5 = IntVar()
 
 # creating necessary checkboxes
-c1 = Checkbutton(root, variable=var1, bg=background_colour)  # creating checkbox variables
+c1 = Checkbutton(root, variable=var1, bg=background_colour)  
 c2 = Checkbutton(root, variable=var2, bg=background_colour)
 c3 = Checkbutton(root, variable=var3, bg=background_colour)
 c4 = Checkbutton(root, variable=var4, bg=background_colour)
