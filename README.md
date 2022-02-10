@@ -12,5 +12,4 @@ If you want to test the code, test.py can be ran to create dummy files with diff
 # Libraries used: 
 Send2Trash (1.8 and above)- https://pypi.org/project/Send2Trash/
 
-
-
+Written by Brydon

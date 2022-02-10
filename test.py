@@ -40,3 +40,4 @@ def massCreate(testcase, amount=100, atimes=False, mtimes=False, size=False, ext
 no = int(input("Enter the amount of files to create: "))
 massCreate("test"+str(random.randint(1, 5000)), amount=no) # Mass creates 100 files, inside a folder
 
+# Done by Osaid
