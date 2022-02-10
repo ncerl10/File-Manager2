@@ -1,6 +1,4 @@
-#Noah
 # importing necessary libraries and modules
-
 from tkinter import *
 from datetime import datetime
 from tkinter import filedialog
@@ -13,7 +11,7 @@ try:
 except Exception as e:
     print(e)
 
-#Brydon
+
 # load data
 def loadOptions():
     data = []
@@ -37,7 +35,6 @@ except: # if options.txt can't be opened by python, the default theme will be lo
     background_colour = 'grey'
     text_colour = 'white'
 
-#Noah
 root = Tk()  # creating the screen
 root.title("File manager")  # editing the tile of the screen
 root.geometry("600x200")  # changing the dimension of the screen
@@ -101,9 +98,9 @@ def confirm():  # activates when the confirm button is pressed
         for item in p.glob("**/*"):
             count += 1
             if var1.get() == 1:
-                if clicked5.get() == "is" and item.suffix != e_file_type.get():
+                if clicked5.get() == "is" and item.suffix != file_type:
                     continue
-                elif clicked5.get() == "is not" and item.suffix == e_file_type.get():
+                elif clicked5.get() == "is not" and item.suffix == file_type:
                     continue
             if var2.get() == 1:
                 size = float(e_file_size.get()) * 1000 ** (sizes.index(clicked1.get()) + 1)
@@ -138,9 +135,8 @@ def confirm():  # activates when the confirm button is pressed
                 access_month = int(access_date[5:7])
                 access_day = int(access_date[8:10])
                 if check_date(clicked5.get(), int(e_year3.get()), int(e_month3.get()), int(e_day3.get()), access_year,
-                              access_month, modify_day):
+                              access_month, access_day):
                     continue
-            #Brydon
             delcount += 1
             try:
                 send2trash(item)  # sends item to trash
@@ -159,7 +155,7 @@ def confirm():  # activates when the confirm button is pressed
         button_done = Button(done, text="Ok", highlightbackground=background_colour, command=done.destroy)
         label_done.pack()
         button_done.pack()
-    #Noah
+
     global label_error
     global file_chosen
     label_error.destroy()
@@ -176,10 +172,12 @@ def confirm():  # activates when the confirm button is pressed
         label_error = Label(root, text="Please input a file type", fg="red", bg="systemTransparent")
         label_error.grid(row=7, column=0, columnspan=2, sticky="w")
         return
-    if var1.get() == 1 and e_file_type.get()[0] != ".":  # checks if the file type is inputed in the correct format
-        label_error = Label(root, text="File type has to  with a .", fg="red", bg="systemTransparent")
-        label_error.grid(row=7, column=0, columnspan=2, sticky="w")
-        return
+    if var1.get() == 1:
+        global file_type
+        if e_file_type.get()[0] != ".":  # adds a . to the start of the file type if it hasnt already been inputed
+            file_type = "." + e_file_type.get()
+        else:
+            file_type = e_file_type.get()
     if var2.get() == 1 and e_file_size.get() == "":  # checks if the user has inputed their file size
         label_error = Label(root, text="Please input a file size", fg="red", bg="systemTransparent")
         label_error.grid(row=7, column=0, columnspan=2, sticky="w")
@@ -337,7 +335,7 @@ def settings(): # activate when the user press the settings button
 
         if quit:
             window.destroy()
-    #Brydon
+
     def save():
         try:
             saveOptions(currSelect)
@@ -348,13 +346,8 @@ def settings(): # activate when the user press the settings button
         background_colour = loadOptions()[0]
         text_colour = loadOptions()[1]
     except:
-<<<<<<< Updated upstream
         background_colour = 'grey'
         text_colour = 'white'
-=======
-        pass
-    #Noah
->>>>>>> Stashed changes
     window = Toplevel() # creates a menu that allows the user to change the theme of the app
     window.config(bg=background_colour)
     button_theme1 = Button(window, text="White", command= lambda: theme("white", "black", False), highlightbackground=background_colour)
@@ -474,7 +467,7 @@ var4 = IntVar()
 var5 = IntVar()
 
 # creating necessary checkboxes
-c1 = Checkbutton(root, variable=var1, bg=background_colour)  # creating checkbox variables
+c1 = Checkbutton(root, variable=var1, bg=background_colour)  
 c2 = Checkbutton(root, variable=var2, bg=background_colour)
 c3 = Checkbutton(root, variable=var3, bg=background_colour)
 c4 = Checkbutton(root, variable=var4, bg=background_colour)
