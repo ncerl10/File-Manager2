@@ -1,4 +1,6 @@
+#Noah
 # importing necessary libraries and modules
+
 from tkinter import *
 from datetime import datetime
 from tkinter import filedialog
@@ -11,7 +13,7 @@ try:
 except Exception as e:
     print(e)
 
-
+#Brydon
 # load data
 def loadOptions():
     data = []
@@ -35,6 +37,7 @@ except: # if options.txt can't be opened by python, the default theme will be lo
     background_colour = 'grey'
     text_colour = 'white'
 
+#Noah
 root = Tk()  # creating the screen
 root.title("File manager")  # editing the tile of the screen
 root.geometry("600x200")  # changing the dimension of the screen
@@ -137,6 +140,7 @@ def confirm():  # activates when the confirm button is pressed
                 if check_date(clicked5.get(), int(e_year3.get()), int(e_month3.get()), int(e_day3.get()), access_year,
                               access_month, modify_day):
                     continue
+            #Brydon
             delcount += 1
             try:
                 send2trash(item)  # sends item to trash
@@ -155,7 +159,7 @@ def confirm():  # activates when the confirm button is pressed
         button_done = Button(done, text="Ok", highlightbackground=background_colour, command=done.destroy)
         label_done.pack()
         button_done.pack()
-
+    #Noah
     global label_error
     global file_chosen
     label_error.destroy()
@@ -333,7 +337,7 @@ def settings(): # activate when the user press the settings button
 
         if quit:
             window.destroy()
-
+    #Brydon
     def save():
         try:
             saveOptions(currSelect)
@@ -344,8 +348,13 @@ def settings(): # activate when the user press the settings button
         background_colour = loadOptions()[0]
         text_colour = loadOptions()[1]
     except:
+<<<<<<< Updated upstream
         background_colour = 'grey'
         text_colour = 'white'
+=======
+        pass
+    #Noah
+>>>>>>> Stashed changes
     window = Toplevel() # creates a menu that allows the user to change the theme of the app
     window.config(bg=background_colour)
     button_theme1 = Button(window, text="White", command= lambda: theme("white", "black", False), highlightbackground=background_colour)
