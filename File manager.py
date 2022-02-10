@@ -64,9 +64,6 @@ def validate_date(y, m, d):  # year, month, day
 
 # checks if the file date fits the criteria of the parameter date
 def check_date(v, y, m, d, ny, nm, nd):
-    print(y, ny)
-    print(m, nm)
-    print(d, nd)
     if v == "Before":
         if y < ny:
             return True
@@ -116,6 +113,7 @@ def confirm():  # activates when the confirm button is pressed
                 create_year = int(create_date[:4])
                 create_month = int(create_date[5:7])
                 create_day = int(create_date[8:10])
+                print(create_date)
                 if check_date(clicked3.get(), int(e_year1.get()), int(e_month1.get()), int(e_day1.get()), create_year,
                               create_month, create_day):
                     continue
@@ -264,12 +262,14 @@ def instructions(): # creates window with list of instructions
     label3 = Label(window, text="Next, select which parameters you would like to use", bg=background_colour, fg=text_colour)
     label4 = Label(window, text="Finally, fill up the necessary information then press confirm to start sorting", bg=background_colour, fg=text_colour)
     label5 = Label(window, text="The files will then be moved into your bin", bg=background_colour, fg=text_colour)
+    label6 = Label(window, text="Disclaimer: if you are sorting by 'is not' for file type, all items in subfolders will be sent to trash", bg=background_colour, fg=text_colour)
     close = Button(window, text="Close", command=window.destroy, highlightbackground=background_colour)
     label1.pack()
     label2.pack()
     label3.pack()
     label4.pack()
     label5.pack()
+    label6.pack()
     close.pack()
 
 def settings(): # activate when the user press the settings button
